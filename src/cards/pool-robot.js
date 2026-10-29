@@ -271,7 +271,9 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
       const c = this._c, r = this._root, card = this._card;
       const st = this._compute(), clamp = (x) => Math.max(0, Math.min(1, x));
       const s = this._st(c.entity), attr = (s && s.attributes) || {};
-      const filter = this._num(c.entity_filter), lvl = this._num(c.entity_water_level), temp = this._num(c.entity_water_temp);
+      const filter = this._num(c.entity_filter), lvl = this._num(c.entity_water_level);
+      // température dans l'unité d'affichage (°C / °F)
+      const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_water_temp), this._st(c.entity_water_temp));
       const time = this._minutes(c.entity_time), pw = this._watts(c.entity_power), energy = this._num(c.entity_energy);
       let batt = this._num(c.entity_battery); if (isNaN(batt) && isFinite(Number(attr.battery_level))) batt = Number(attr.battery_level);
       const full = Number(c.water_level_full) || 100;
@@ -313,7 +315,7 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
         status: [true, this._t(st), ''],
         filter: [c.entity_filter, this._fmt(filter, 0), this._unit(c.entity_filter, '%')],
         water_level: [c.entity_water_level, this._fmt(lvl, 0), this._unit(c.entity_water_level, '%')],
-        water_temp: [c.entity_water_temp, this._fmt(temp, 1), this._unit(c.entity_water_temp, '°C')],
+        water_temp: [c.entity_water_temp, this._fmt(temp, 1), tc.unit],
         time: [c.entity_time, isNaN(time) ? '--' : time >= 60 ? `${Math.floor(time / 60)} h ${String(Math.round(time % 60)).padStart(2, '0')}` : this._fmt(time, 0), isNaN(time) || time >= 60 ? '' : 'min'],
         battery: [c.entity_battery || isFinite(Number(attr.battery_level)), this._fmt(batt, 0), '%'],
         mode: [c.entity_mode, mode ? String(mode.state) : '--', ''],
@@ -362,6 +364,7 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
         { type: 'grid', name: '', schema: [
           num('filter_alert', 0, 100, 1, 80), num('water_level_min', 0, 1000, 1, 70), num('water_level_full', 1, 1000, 1, 100), num('run_threshold', 0, 2000, 1, 30),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_status_tile'), bool('show_filter'), bool('show_water_level'), bool('show_water_temp'),

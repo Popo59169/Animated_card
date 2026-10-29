@@ -64,6 +64,8 @@ cost: sensor.lave_linge_cout_jour
 
 **Taille des cartes** : dans un tableau de bord en sections, toutes les cartes se redimensionnent à la souris, en largeur (dès 3 colonnes) et en hauteur. `illustration_size` (en %, 30 à 300, champ « Taille de l'illustration » de l'éditeur) agrandit ou réduit le dessin, sur toutes les cartes et dans tous les types de tableau de bord. `transparent: true` (« Fond transparent » dans l'éditeur) retire le fond, l'ombre et la bordure de la carte, pour laisser voir le fond d'écran du tableau de bord.
 
+**°C ou °F** : les cartes aquarium, batterie, chaudières à granulés, gaz et diesel, jacuzzi, pompes, robot de piscine, sauna, plancher chauffant et PAC eau/eau affichent les températures dans l'unité de Home Assistant, ou dans celle forcée par `temperature_unit: C|F` (« Unité de température » dans l'éditeur). Chaque capteur est converti depuis sa propre unité. Les seuils de température se saisissent dans l'unité affichée ; les valeurs par défaut (en °C dans cette page) sont converties, par exemple 40 °C → 104 °F.
+
 **Plusieurs appareils du même type** : chaque carte est indépendante (ses propres entités, son état, ses minuteries). Deux lave-linge ou plusieurs frigos peuvent cohabiter, il suffit de donner à chaque carte ses entités (et un `name`).
 
 **Consommation du jour** : avec un compteur d'énergie cumulé (la plupart des prises connectées), `energy_period: day` (ou `week`, `month`) affiche ce qui a été consommé depuis minuit au lieu du compteur total. Home Assistant le calcule à partir des statistiques longue durée, comme le tableau de bord Énergie : plus besoin de créer un Utility Meter par appareil. Il faut un capteur avec statistiques (`state_class: total_increasing`), sinon la carte affiche le compteur.

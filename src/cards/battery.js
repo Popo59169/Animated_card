@@ -39,6 +39,7 @@ class ApplianceBatteryCard extends HTMLElement {
           { name: 'show_temperature', selector: { boolean: {} }, default: true },
           { name: 'show_time', selector: { boolean: {} }, default: true },
         ] },
+        window.applianceTempField,
         { name: 'layout', selector: { select: { mode: 'dropdown', options: ['default', 'split'] } } },
         { name: 'status_position', selector: { select: { mode: 'dropdown', options: ['auto', 'inside', 'below'] } } },
         { name: 'language', selector: { select: { options: Object.keys(I18N_BAT) } } },
@@ -164,7 +165,8 @@ class ApplianceBatteryCard extends HTMLElement {
   _update() {
     if (!this._built || !this._hass) return;
     const c = this._config, r = this.shadowRoot;
-    const soc = this._num(c.entity_soc), energy = this._num(c.entity_energy), temp = this._num(c.entity_temperature);
+    const soc = this._num(c.entity_soc), energy = this._num(c.entity_energy);
+    const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temperature), this._hass.states[c.entity_temperature]);
     let p = this._num(c.entity_power); if (p !== null && c.invert_power) p = -p;
     const pct = soc === null ? 0 : Math.max(0, Math.min(100, soc));
     // Remplissage des 3 modules (corps : y 62 → 160)
@@ -195,7 +197,7 @@ class ApplianceBatteryCard extends HTMLElement {
     const it = [];
     if (c.show_power) it.push([this._l('power'), f(p === null ? null : Math.abs(p), 0, 'W')]);
     if (c.show_energy) it.push([this._l('energy'), f(energy !== null ? energy : (soc === null ? null : c.capacity_kwh * pct / 100), 1, 'kWh')]);
-    if (c.show_temperature) it.push([this._l('temp'), f(temp, 0, '°C')]);
+    if (c.show_temperature) it.push([this._l('temp'), f(temp, 0, tc.unit)]);
     if (time) it.push(['⏱', time]);
     r.getElementById('stats').innerHTML = it.map(([l, v]) => `<div class="stat"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join('');
   }

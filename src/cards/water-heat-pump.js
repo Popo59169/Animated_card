@@ -184,6 +184,7 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
             { name: 'heating_delay', selector: { number: { min: 0, max: 600, step: 1, mode: 'box', unit_of_measurement: 's' } } },
           ] },
           { type: 'grid', name: '', schema: SHOW.map((name) => ({ name, selector: { boolean: {} }, default: true })) },
+          window.applianceTempField,
           { name: 'language', selector: { select: { options: Object.keys(T) } } },
         ],
         computeLabel: (s) => window.applianceEditorLabel(s.name),
@@ -301,13 +302,15 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, run, src, chg, circ, pw, heat, rate } = this._compute();
-      const flow = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp);
+      // températures dans l'unité d'affichage (°C / °F)
+      const tu = window.applianceTemp(this._hass, c), tv = (id) => tu.conv(this._num(id), this._st(id));
+      const flow = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp);
       card.className = `${st} ${run ? 'run' : ''} ${src ? 'src' : ''} ${chg ? 'chg' : ''} ${circ ? 'circ' : ''} ${c.buffer_tank ? 'buffer' : ''} ${c.animations === false ? 'noanim' : ''}`;
       // départ / retour : bleu à 20 °C, rouge à 55 °C (températures de PAC, plus basses qu'une chaudière)
-      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (t - 20) / 35)) * 100)}%, #3b8fe8)`;
+      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (tu.toC(t) - 20) / 35)) * 100)}%, #3b8fe8)`;
       card.style.setProperty('--wp-flowc', tc(flow, '#e5533d'));
       card.style.setProperty('--wp-retc', tc(ret, '#3b8fe8'));
-      const buf = this._num(c.entity_buffer_temp);
+      const buf = tv(c.entity_buffer_temp);
       card.style.setProperty('--wp-tankc', tc(isNaN(buf) ? flow : buf, '#e5533d'));
 
       r.getElementById('title').textContent = c.name || this._t('name');
@@ -322,12 +325,12 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
         power: [c.entity_power, ...this._kw(pw)],
         heat: [c.entity_heat_power, ...this._kw(heat)],
         cop: [hasCop, this._fmt(cop, 1), ''],
-        flow: [c.entity_flow_temp, this._fmt(flow, 1), '°C'],
-        ret: [c.entity_return_temp, this._fmt(ret, 1), '°C'],
-        delta: [c.entity_flow_temp && c.entity_return_temp, this._fmt(flow - ret, 1), 'K'],
-        buffer: [c.entity_buffer_temp, this._fmt(buf, 1), '°C'],
-        src_in: [c.entity_source_in_temp, this._fmt(this._num(c.entity_source_in_temp), 1), '°C'],
-        src_out: [c.entity_source_out_temp, this._fmt(this._num(c.entity_source_out_temp), 1), '°C'],
+        flow: [c.entity_flow_temp, this._fmt(flow, 1), tu.unit],
+        ret: [c.entity_return_temp, this._fmt(ret, 1), tu.unit],
+        delta: [c.entity_flow_temp && c.entity_return_temp, this._fmt(flow - ret, 1), tu.unit === '°F' ? '°F' : 'K'],
+        buffer: [c.entity_buffer_temp, this._fmt(buf, 1), tu.unit],
+        src_in: [c.entity_source_in_temp, this._fmt(tv(c.entity_source_in_temp), 1), tu.unit],
+        src_out: [c.entity_source_out_temp, this._fmt(tv(c.entity_source_out_temp), 1), tu.unit],
         rate: [c.entity_flow_rate, this._fmt(rate, 2), this._unit(c.entity_flow_rate, 'l/h')],
         energy: [c.entity_energy, ...this._kwh(c.entity_energy)],
         heat_energy: [c.entity_heat_energy, ...this._kwh(c.entity_heat_energy)],

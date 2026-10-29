@@ -187,7 +187,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_fuel: true, show_fuel_used: true, show_cost: true, show_temps: true,
-        show_status: true, threshold: 15, ignition_threshold: 60, off_threshold: 0.5, fuel_alert: 15, flue_temp_max: 300, ...c };
+        show_status: true, threshold: 15, ignition_threshold: 60, off_threshold: 0.5, fuel_alert: 15, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -266,7 +266,9 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, pw } = this._compute();
-      const temp = this._num(c.entity_temp), flue = this._num(c.entity_flue_temp);
+      // températures dans l'unité d'affichage (°C / °F) ; flue_temp_max par défaut : 300 °C
+      const tc = window.applianceTemp(this._hass, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+      const temp = tv(c.entity_temp), flue = tv(c.entity_flue_temp), flueMax = c.flue_temp_max ?? tc.c(300);
       let fuel = this._num(c.entity_fuel_level);
       const low = !isNaN(fuel) && fuel < Number(c.fuel_alert);
       let mod = this._num(c.entity_modulation); mod = isNaN(mod) ? 1 : Math.max(0, Math.min(100, mod)) / 100;
@@ -285,7 +287,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       // alertes
       let al = '';
       if (low) al = `${this._t('lowfuel')} (${this._fmt(fuel, 0)} %)`;
-      else if (!isNaN(flue) && flue > c.flue_temp_max) al = this._t('hotflue');
+      else if (!isNaN(flue) && flue > flueMax) al = this._t('hotflue');
       const ae = r.getElementById('dhalert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -298,14 +300,14 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
         fuel: [c.entity_fuel_level, this._fmt(fuel, 0), '%'],
         used: [c.entity_fuel_used, this._fmt(used, 1), this._unit(c.entity_fuel_used, 'L')],
         cost: [c.entity_cost || (c.price_per_liter && c.entity_fuel_used), this._fmt(cost, 2), costU],
-        temp: [c.entity_temp, this._fmt(temp, 1), '°C'],
-        flue: [c.entity_flue_temp, this._fmt(flue, 0), '°C'],
+        temp: [c.entity_temp, this._fmt(temp, 1), tc.unit],
+        flue: [c.entity_flue_temp, this._fmt(flue, 0), tc.unit],
       };
       const ENT = { power: c.entity_power, energy: c.entity_energy, fuel: c.entity_fuel_level, used: c.entity_fuel_used, cost: c.entity_cost, temp: c.entity_temp, flue: c.entity_flue_temp };
       TILES.forEach(([k, , opt]) => {
         const el = r.querySelector(`.tile[data-k="${k}"]`); const [ent, val, unit] = V[k];
         el.classList.toggle('hide', !ent || c[opt] === false);
-        el.classList.toggle('bad', (k === 'fuel' && low) || (k === 'flue' && !isNaN(flue) && flue > c.flue_temp_max));
+        el.classList.toggle('bad', (k === 'fuel' && low) || (k === 'flue' && !isNaN(flue) && flue > flueMax));
         el.querySelector('.lbl').textContent = this._l(k);
         // valeur + unité en texte (l'unité vient de l'entité ou de la config)
         const small = document.createElement('small'); small.textContent = unit ?? '';
@@ -347,6 +349,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
           { name: 'off_threshold', selector: { number: { min: 0, max: 500, step: 0.1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'fuel_alert', selector: { number: { min: 0, max: 100, step: 1, mode: 'box', unit_of_measurement: '%' } } },
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },

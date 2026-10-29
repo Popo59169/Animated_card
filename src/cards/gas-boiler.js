@@ -147,7 +147,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_gas: true, show_cost: true, show_temps: true,
         show_pressure: true, show_modulation: true, show_status: true, threshold: 15, off_threshold: 0.5,
-        pressure_min: 1, pressure_max: 2.5, flow_temp_max: 80, ...c };
+        pressure_min: 1, pressure_max: 2.5, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -226,14 +226,17 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, h = this._hass, card = this._card, r = this._root;
       const { st, burning, pump, pw } = this._compute();
-      const flow = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp);
+      // températures dans l'unité d'affichage (°C / °F) ; flow_temp_max par défaut : 80 °C
+      const tc = window.applianceTemp(h, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+      const flow = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp), flowMax = c.flow_temp_max ?? tc.c(80);
       const press = this._num(c.entity_pressure);
       let mod = this._num(c.entity_modulation); mod = isNaN(mod) ? 1 : Math.max(0, Math.min(100, mod)) / 100;
       card.className = `${st} ${burning ? 'burning' : ''} ${pump ? 'pump' : ''} ${c.animations === false ? 'noanim' : ''}`;
       card.style.setProperty('--mod', mod);
-      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (t - 25) / 50)) * 100)}%, #3b8fe8)`;
-      card.style.setProperty('--gb-flowc', tc(flow, '#e5533d'));
-      card.style.setProperty('--gb-retc', tc(ret, '#3b8fe8'));
+      // couleur des tuyaux : bleu à 25 °C, rouge à 75 °C
+      const pipe = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (tc.toC(t) - 25) / 50)) * 100)}%, #3b8fe8)`;
+      card.style.setProperty('--gb-flowc', pipe(flow, '#e5533d'));
+      card.style.setProperty('--gb-retc', pipe(ret, '#3b8fe8'));
 
       r.getElementById('title').textContent = c.name || this._t('name');
       const badge = r.getElementById('badge'); badge.textContent = this._t(st); badge.style.display = c.show_status === false ? 'none' : '';
@@ -251,7 +254,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       let al = '';
       if (!isNaN(press) && press < c.pressure_min) al = `${this._t('lowp')} (${this._fmt(press, 1)} bar)`;
       else if (!isNaN(press) && press > c.pressure_max) al = `${this._t('highp')} (${this._fmt(press, 1)} bar)`;
-      else if (!isNaN(flow) && flow > c.flow_temp_max) al = this._t('hotf');
+      else if (!isNaN(flow) && flow > flowMax) al = this._t('hotf');
       const ae = r.getElementById('alert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -263,8 +266,8 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
         gas: [c.entity_gas, this._fmt(gas, 2), this._unit(c.entity_gas, 'm³')],
         cost: [c.entity_cost || (c.price_per_unit && c.entity_gas), this._fmt(cost, 2), costU],
-        flow: [c.entity_flow_temp, this._fmt(flow, 1), '°C'],
-        ret: [c.entity_return_temp, this._fmt(ret, 1), '°C'],
+        flow: [c.entity_flow_temp, this._fmt(flow, 1), tc.unit],
+        ret: [c.entity_return_temp, this._fmt(ret, 1), tc.unit],
         pressure: [c.entity_pressure, this._fmt(press, 2), 'bar'],
         mod: [c.entity_modulation, this._fmt(mod * 100, 0), '%'],
       };
@@ -309,6 +312,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
           { name: 'threshold', selector: { number: { min: 0, max: 2000, step: 1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'off_threshold', selector: { number: { min: 0, max: 500, step: 0.1, mode: 'box', unit_of_measurement: 'W' } } },
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },

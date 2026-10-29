@@ -5383,7 +5383,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
   "color:#03a9f4;background:#fff;font-weight:700;border-radius:0 3px 3px 0");
 })();
 
-/* Libellés de l'éditeur visuel des cartes autonomes (Pompe, Onduleur, Plancher chauffant, Sauna…).
+/* Libellés de l'éditeur visuel des cartes autonomes (Pompe, Onduleur, Plancher chauffant, Sauna…)
+ * et unité des températures (°C / °F) partagée par ces cartes.
  * window.applianceEditorLabel(nom, hass) → libellé traduit dans la langue de Home Assistant,
  * à défaut un libellé lisible tiré du nom de l'option (entity_floor_temp → « Floor temp »).
  */
@@ -5466,8 +5467,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Water temperature",
       "filter_alert": "Filter alert (%)",
       "filter_threshold": "Filter alert threshold",
-      "floor_max": "Max floor temperature (°C)",
-      "flow_temp_max": "Max flow temperature (°C)",
+      "floor_max": "Max floor temperature",
+      "flow_temp_max": "Max flow temperature",
       "fluid_color": "Fluid colour",
       "fuel_alert": "Fuel alert (%)",
       "hc_ranges": "Off-peak hours (e.g. 22:00-06:00)",
@@ -5504,7 +5505,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Price per kWh",
       "price_per_liter": "Price per litre",
       "price_per_unit": "Price per unit",
-      "ready_margin": "Ready margin (°C)",
+      "ready_margin": "Ready margin",
       "run_threshold": "Running threshold (W)",
       "show_area": "Show area",
       "show_battery": "Show battery",
@@ -5561,11 +5562,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Maximum temperature",
       "temp_min": "Minimum temperature",
       "temp_scale": "Thermometer scale",
+      "temperature_unit": "Temperature unit (empty: automatic)",
       "threshold": "Power threshold (W)",
       "travel_time": "Travel time (s)",
       "water_level_full": "Full pool water level",
       "water_level_min": "Minimum water level",
-      "water_max": "Max water temperature (°C)",
+      "water_max": "Max water temperature",
       "color": "Light colour",
       "follow_light_color": "Follow the bulb colour",
       "color_cycle": "Colour cycle",
@@ -5656,8 +5658,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Wassertemperatur",
       "filter_alert": "Filterwarnung (%)",
       "filter_threshold": "Filterwarnschwelle",
-      "floor_max": "Max. Bodentemperatur (°C)",
-      "flow_temp_max": "Max. Vorlauftemperatur (°C)",
+      "floor_max": "Max. Bodentemperatur",
+      "flow_temp_max": "Max. Vorlauftemperatur",
       "fluid_color": "Farbe der Flüssigkeit",
       "fuel_alert": "Kraftstoffwarnung (%)",
       "hc_ranges": "Niedertarifzeiten (z. B. 22:00-06:00)",
@@ -5694,7 +5696,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Preis pro kWh",
       "price_per_liter": "Preis pro Liter",
       "price_per_unit": "Preis pro Einheit",
-      "ready_margin": "Bereit-Toleranz (°C)",
+      "ready_margin": "Bereit-Toleranz",
       "run_threshold": "Betriebsschwelle (W)",
       "show_area": "Fläche anzeigen",
       "show_battery": "Akku anzeigen",
@@ -5751,11 +5753,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Maximaltemperatur",
       "temp_min": "Minimaltemperatur",
       "temp_scale": "Thermometerskala",
+      "temperature_unit": "Temperatureinheit (leer: automatisch)",
       "threshold": "Leistungsschwelle (W)",
       "travel_time": "Laufzeit des Motors (s)",
       "water_level_full": "Wasserstand „voll“",
       "water_level_min": "Minimaler Wasserstand",
-      "water_max": "Max. Wassertemperatur (°C)",
+      "water_max": "Max. Wassertemperatur",
       "color": "Lichtfarbe",
       "follow_light_color": "Farbe der Lampe übernehmen",
       "color_cycle": "Farbwechsel",
@@ -5846,8 +5849,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Température de l'eau",
       "filter_alert": "Alerte filtre (%)",
       "filter_threshold": "Seuil d'alerte filtre",
-      "floor_max": "Température max du sol (°C)",
-      "flow_temp_max": "Température max de départ (°C)",
+      "floor_max": "Température max du sol",
+      "flow_temp_max": "Température max de départ",
       "fluid_color": "Couleur du fluide",
       "fuel_alert": "Alerte carburant (%)",
       "hc_ranges": "Heures creuses (ex. 22:00-06:00)",
@@ -5884,7 +5887,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Prix du kWh",
       "price_per_liter": "Prix du litre",
       "price_per_unit": "Prix par unité",
-      "ready_margin": "Marge « prêt » (°C)",
+      "ready_margin": "Marge « prêt »",
       "run_threshold": "Seuil de marche (W)",
       "show_area": "Afficher la surface",
       "show_battery": "Afficher la batterie",
@@ -5941,11 +5944,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Température maximale",
       "temp_min": "Température minimale",
       "temp_scale": "Échelle du thermomètre",
+      "temperature_unit": "Unité de température (vide : automatique)",
       "threshold": "Seuil de puissance (W)",
       "travel_time": "Temps de course (s)",
       "water_level_full": "Niveau d'eau « plein »",
       "water_level_min": "Niveau d'eau minimal",
-      "water_max": "Température max de l'eau (°C)",
+      "water_max": "Température max de l'eau",
       "color": "Couleur de la lumière",
       "follow_light_color": "Suivre la couleur de l'ampoule",
       "color_cycle": "Défilement des couleurs",
@@ -6044,8 +6048,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Vanntemperatur",
       "filter_alert": "Filtervarsel (%)",
       "filter_threshold": "Filtervarslingsterskel",
-      "floor_max": "Maks gulvtemperatur (°C)",
-      "flow_temp_max": "Maks turtemperatur (°C)",
+      "floor_max": "Maks gulvtemperatur",
+      "flow_temp_max": "Maks turtemperatur",
       "fluid_color": "Væskefarge",
       "fuel_alert": "Drivstoffvarsel (%)",
       "hc_ranges": "Lavlasttimer (f.eks. 22:00-06:00)",
@@ -6082,7 +6086,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Pris per kWh",
       "price_per_liter": "Pris per liter",
       "price_per_unit": "Pris per enhet",
-      "ready_margin": "Klar-margin (°C)",
+      "ready_margin": "Klar-margin",
       "run_threshold": "Driftsterskel (W)",
       "show_area": "Vis areal",
       "show_battery": "Vis batteri",
@@ -6139,11 +6143,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Maks temperatur",
       "temp_min": "Min temperatur",
       "temp_scale": "Termometerskala",
+      "temperature_unit": "Temperaturenhet (tom: automatisk)",
       "threshold": "Effektterskel (W)",
       "travel_time": "Gangtid (s)",
       "water_level_full": "Vannstand «full»",
       "water_level_min": "Minimum vannstand",
-      "water_max": "Maks vanntemperatur (°C)",
+      "water_max": "Maks vanntemperatur",
       "color": "Lysfarge",
       "follow_light_color": "Følg pærens farge",
       "color_cycle": "Fargesyklus",
@@ -6226,8 +6231,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Watertemperatuur",
       "filter_alert": "Filterwaarschuwing (%)",
       "filter_threshold": "Filterwaarschuwingsdrempel",
-      "floor_max": "Max. vloertemperatuur (°C)",
-      "flow_temp_max": "Max. aanvoertemperatuur (°C)",
+      "floor_max": "Max. vloertemperatuur",
+      "flow_temp_max": "Max. aanvoertemperatuur",
       "fluid_color": "Kleur van de vloeistof",
       "fuel_alert": "Brandstofwaarschuwing (%)",
       "hc_ranges": "Daluren (bv. 22:00-06:00)",
@@ -6264,7 +6269,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Prijs per kWh",
       "price_per_liter": "Prijs per liter",
       "price_per_unit": "Prijs per eenheid",
-      "ready_margin": "Klaar-marge (°C)",
+      "ready_margin": "Klaar-marge",
       "run_threshold": "Drempel in bedrijf (W)",
       "show_area": "Oppervlak tonen",
       "show_battery": "Batterij tonen",
@@ -6321,11 +6326,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Maximale temperatuur",
       "temp_min": "Minimale temperatuur",
       "temp_scale": "Schaal thermometer",
+      "temperature_unit": "Temperatuureenheid (leeg: automatisch)",
       "threshold": "Vermogensdrempel (W)",
       "travel_time": "Looptijd motor (s)",
       "water_level_full": "Waterniveau „vol“",
       "water_level_min": "Minimaal waterniveau",
-      "water_max": "Max. watertemperatuur (°C)",
+      "water_max": "Max. watertemperatuur",
       "color": "Lichtkleur",
       "follow_light_color": "Kleur van de lamp volgen",
       "color_cycle": "Kleurenwissel",
@@ -6416,8 +6422,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Temperatura apei",
       "filter_alert": "Alertă filtru (%)",
       "filter_threshold": "Prag alertă filtru",
-      "floor_max": "Temperatură max pardoseală (°C)",
-      "flow_temp_max": "Temperatură max tur (°C)",
+      "floor_max": "Temperatură max pardoseală",
+      "flow_temp_max": "Temperatură max tur",
       "fluid_color": "Culoarea fluidului",
       "fuel_alert": "Alertă combustibil (%)",
       "hc_ranges": "Ore de gol (ex. 22:00-06:00)",
@@ -6454,7 +6460,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Preț pe kWh",
       "price_per_liter": "Preț pe litru",
       "price_per_unit": "Preț pe unitate",
-      "ready_margin": "Marjă „gata” (°C)",
+      "ready_margin": "Marjă „gata”",
       "run_threshold": "Prag de funcționare (W)",
       "show_area": "Afișează suprafața",
       "show_battery": "Afișează bateria",
@@ -6511,11 +6517,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Temperatură maximă",
       "temp_min": "Temperatură minimă",
       "temp_scale": "Scala termometrului",
+      "temperature_unit": "Unitate de temperatură (gol: automat)",
       "threshold": "Prag de putere (W)",
       "travel_time": "Timp de cursă (s)",
       "water_level_full": "Nivel apă „plin”",
       "water_level_min": "Nivel minim al apei",
-      "water_max": "Temperatură max apă (°C)",
+      "water_max": "Temperatură max apă",
       "color": "Culoarea luminii",
       "follow_light_color": "Urmează culoarea becului",
       "color_cycle": "Ciclu de culori",
@@ -6606,8 +6613,8 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "entity_water_temp": "Температура воды",
       "filter_alert": "Оповещение о фильтре (%)",
       "filter_threshold": "Порог оповещения о фильтре",
-      "floor_max": "Макс. температура пола (°C)",
-      "flow_temp_max": "Макс. температура подачи (°C)",
+      "floor_max": "Макс. температура пола",
+      "flow_temp_max": "Макс. температура подачи",
       "fluid_color": "Цвет жидкости",
       "fuel_alert": "Оповещение о топливе (%)",
       "hc_ranges": "Внепиковые часы (напр. 22:00-06:00)",
@@ -6644,7 +6651,7 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "price_per_kwh": "Цена за кВт·ч",
       "price_per_liter": "Цена за литр",
       "price_per_unit": "Цена за единицу",
-      "ready_margin": "Допуск готовности (°C)",
+      "ready_margin": "Допуск готовности",
       "run_threshold": "Порог работы (Вт)",
       "show_area": "Показывать площадь",
       "show_battery": "Показывать батарею",
@@ -6701,11 +6708,12 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
       "temp_max": "Максимальная температура",
       "temp_min": "Минимальная температура",
       "temp_scale": "Шкала термометра",
+      "temperature_unit": "Единица температуры (пусто: автоматически)",
       "threshold": "Порог мощности (Вт)",
       "travel_time": "Время хода (с)",
       "water_level_full": "Уровень воды в полном бассейне",
       "water_level_min": "Минимальный уровень воды",
-      "water_max": "Макс. температура воды (°C)",
+      "water_max": "Макс. температура воды",
       "color": "Цвет света",
       "follow_light_color": "Следовать цвету лампы",
       "color_cycle": "Смена цветов",
@@ -6739,6 +6747,36 @@ console.info(`%c HA-APPLIANCE-CARDS %c v${VERSION} `,
     const T = { '--ha-card-background': 'transparent', '--ha-card-box-shadow': 'none', '--ha-card-border-width': '0' };
     for (const [k, v] of Object.entries(T)) { if (cfg && cfg.transparent) el.style.setProperty(k, v); else el.style.removeProperty(k); }
   };
+  // Températures (multi-pays) : unité d'affichage = option temperature_unit (C / F), sinon celle de Home Assistant, sinon °C.
+  // conv() convertit la valeur d'une entité depuis son unit_of_measurement (à défaut l'unité de HA : climate / water_heater
+  // n'en ont pas) ; les seuils saisis sont dans l'unité d'affichage, les valeurs par défaut écrites en °C passent par c() / d().
+  const tu = (u) => {
+    const s = String(u || '').trim().toLowerCase();
+    return s === '℉' || /^°?f(ahrenheit)?$/.test(s) ? 'F' : s === '℃' || /^°?c(elsius)?$/.test(s) ? 'C' : /^k(elvin)?$/.test(s) ? 'K' : null;
+  };
+  window.applianceTemp = (hass, cfg) => {
+    const h = hass || document.querySelector('home-assistant')?.hass;
+    const sys = tu(h?.config?.unit_system?.temperature) || 'C';
+    const f = (tu(cfg && cfg.temperature_unit) || (sys === 'F' ? 'F' : 'C')) === 'F';
+    const ok = (v) => v != null && Number.isFinite(Number(v));
+    const fromC = (v) => (f ? v * 1.8 + 32 : v);
+    return {
+      unit: f ? '°F' : '°C',
+      conv: (v, st) => {
+        if (!ok(v)) return v;
+        const src = tu(st && st.attributes && st.attributes.unit_of_measurement) || sys;
+        const vc = src === 'F' ? (v - 32) / 1.8 : src === 'K' ? v - 273.15 : v;
+        return src === (f ? 'F' : 'C') ? v : fromC(vc);
+      },
+      c: (v) => (ok(v) ? fromC(Number(v)) : v), // température écrite en °C → affichage
+      d: (v) => (ok(v) && f ? Number(v) * 1.8 : v), // écart en °C (marge) → affichage
+      toC: (v) => (ok(v) && f ? (v - 32) / 1.8 : v), // affichage → °C (dégradés, échelles internes)
+      // bornes d'un champ de l'éditeur données en °C, arrondies dans l'unité d'affichage
+      range: (min, max) => ({ min: Math.floor(fromC(min)), max: Math.ceil(fromC(max)) }),
+    };
+  };
+  // champ « Unité de température » des éditeurs (vide : automatique)
+  window.applianceTempField = { name: 'temperature_unit', selector: { select: { mode: 'dropdown', options: [{ value: 'C', label: '°C' }, { value: 'F', label: '°F' }] } } };
   window.applianceEditorLabel = (name, hass) => (name ? (L[lang(hass)] || L.en)[name] ?? L.en[name] ?? human(name) : '');
 })();
 
@@ -6822,12 +6860,14 @@ const I18N_AQUARIUM = {
 const lang = (h) => { const l = ((h && (h.locale?.language || h.language)) || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return l === 'no' || l === 'nn' ? 'nb' : l; };
 
 class ApplianceAquariumCard extends HTMLElement {
-  static getStubConfig() {
-    return { entity_power: '', entity_energy: '', entity_temperature: '', entity_light: '', temp_min: 24, temp_max: 27, price_per_kwh: 0.2 };
+  static getStubConfig(hass) {
+    const tc = window.applianceTemp(hass);
+    return { entity_power: '', entity_energy: '', entity_temperature: '', entity_light: '', temp_min: tc.c(24), temp_max: tc.c(27), price_per_kwh: 0.2 };
   }
 
   // Éditeur visuel HA
   static getConfigForm() {
+    const tc = window.applianceTemp(), tr = tc.range(0, 40);
     return {
       schema: [
         { name: 'name', selector: { text: {} } },
@@ -6841,9 +6881,10 @@ class ApplianceAquariumCard extends HTMLElement {
         { name: 'entity_cost', selector: { entity: { domain: 'sensor' } } },
         { name: 'price_per_kwh', selector: { number: { min: 0, max: 2, step: 0.0001, mode: 'box' } } },
         { type: 'grid', name: '', schema: [
-          { name: 'temp_min', selector: { number: { min: 0, max: 40, step: 0.5, mode: 'box' } } },
-          { name: 'temp_max', selector: { number: { min: 0, max: 40, step: 0.5, mode: 'box' } } },
+          { name: 'temp_min', selector: { number: { ...tr, step: 0.5, mode: 'box', unit_of_measurement: tc.unit } } },
+          { name: 'temp_max', selector: { number: { ...tr, step: 0.5, mode: 'box', unit_of_measurement: tc.unit } } },
         ] },
+        window.applianceTempField,
         { type: 'grid', name: '', schema: [
           { name: 'show_power', selector: { boolean: {} }, default: true },
           { name: 'show_energy', selector: { boolean: {} }, default: true },
@@ -6860,7 +6901,7 @@ class ApplianceAquariumCard extends HTMLElement {
     if (window.applianceSize) window.applianceSize(this, config);
     this._config = {
       show_power: true, show_energy: true, show_temperature: true, show_cost: true,
-      temp_min: 24, temp_max: 27, price_per_kwh: 0.2, max_power: 200,
+      price_per_kwh: 0.2, max_power: 200,
       ...config,
     };
     this._built = false;
@@ -6995,7 +7036,10 @@ class ApplianceAquariumCard extends HTMLElement {
   _update() {
     if (!this._built || !this._hass) return;
     const c = this._config, root = this.shadowRoot;
-    const power = this._num(c.entity_power), energy = this._num(c.entity_energy), temp = this._num(c.entity_temperature);
+    const power = this._num(c.entity_power), energy = this._num(c.entity_energy);
+    // température dans l'unité d'affichage (°C / °F) ; seuils par défaut 24-27 °C convertis
+    const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temperature), this._hass.states[c.entity_temperature]);
+    const tMin = c.temp_min ?? tc.c(24), tMax = c.temp_max ?? tc.c(27);
     let cost = this._num(c.entity_cost);
     if (cost === null && energy !== null && c.price_per_kwh) cost = energy * c.price_per_kwh;
 
@@ -7006,8 +7050,8 @@ class ApplianceAquariumCard extends HTMLElement {
     // Couleur de l'eau selon la température : froid=bleu, idéal=turquoise, chaud=orange/rouge
     let water = '#2a8fd6', alert = false;
     if (temp !== null) {
-      if (temp < c.temp_min) { water = '#1e5fb5'; alert = true; }
-      else if (temp > c.temp_max) { water = temp > c.temp_max + 3 ? '#d64a2a' : '#d6962a'; alert = true; }
+      if (temp < tMin) { water = '#1e5fb5'; alert = true; }
+      else if (temp > tMax) { water = temp > tMax + tc.d(3) ? '#d64a2a' : '#d6962a'; alert = true; }
       else water = '#2ab5c4';
     }
     root.querySelector('svg').style.setProperty('--water', water);
@@ -7024,7 +7068,7 @@ class ApplianceAquariumCard extends HTMLElement {
     const items = [];
     if (c.show_power) items.push(['p', this._l('power'), fmt(power, 0, 'W')]);
     if (c.show_energy) items.push(['e', this._l('energy'), fmt(energy, 2, 'kWh')]);
-    if (c.show_temperature) items.push(['t', this._l('temp'), fmt(temp, 1, '°C')]);
+    if (c.show_temperature) items.push(['t', this._l('temp'), fmt(temp, 1, tc.unit)]);
     if (c.show_cost) items.push(['c', this._l('cost'), fmt(cost, 2, '€')]);
     root.getElementById('stats').innerHTML = items.map(([k, l, v]) =>
       `<div class="stat ${k}"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join('');
@@ -7644,6 +7688,7 @@ class ApplianceBatteryCard extends HTMLElement {
           { name: 'show_temperature', selector: { boolean: {} }, default: true },
           { name: 'show_time', selector: { boolean: {} }, default: true },
         ] },
+        window.applianceTempField,
         { name: 'layout', selector: { select: { mode: 'dropdown', options: ['default', 'split'] } } },
         { name: 'status_position', selector: { select: { mode: 'dropdown', options: ['auto', 'inside', 'below'] } } },
         { name: 'language', selector: { select: { options: Object.keys(I18N_BAT) } } },
@@ -7769,7 +7814,8 @@ class ApplianceBatteryCard extends HTMLElement {
   _update() {
     if (!this._built || !this._hass) return;
     const c = this._config, r = this.shadowRoot;
-    const soc = this._num(c.entity_soc), energy = this._num(c.entity_energy), temp = this._num(c.entity_temperature);
+    const soc = this._num(c.entity_soc), energy = this._num(c.entity_energy);
+    const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temperature), this._hass.states[c.entity_temperature]);
     let p = this._num(c.entity_power); if (p !== null && c.invert_power) p = -p;
     const pct = soc === null ? 0 : Math.max(0, Math.min(100, soc));
     // Remplissage des 3 modules (corps : y 62 → 160)
@@ -7800,7 +7846,7 @@ class ApplianceBatteryCard extends HTMLElement {
     const it = [];
     if (c.show_power) it.push([this._l('power'), f(p === null ? null : Math.abs(p), 0, 'W')]);
     if (c.show_energy) it.push([this._l('energy'), f(energy !== null ? energy : (soc === null ? null : c.capacity_kwh * pct / 100), 1, 'kWh')]);
-    if (c.show_temperature) it.push([this._l('temp'), f(temp, 0, '°C')]);
+    if (c.show_temperature) it.push([this._l('temp'), f(temp, 0, tc.unit)]);
     if (time) it.push(['⏱', time]);
     r.getElementById('stats').innerHTML = it.map(([l, v]) => `<div class="stat"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join('');
   }
@@ -9074,6 +9120,7 @@ class AppliancePelletBoilerCard extends HTMLElement {
   static getStubConfig() { return { entity_power: '', entity_flow_temp: '', entity_return_temp: '', entity_pellet_level: '' }; }
 
   static getConfigForm() {
+    const tc = window.applianceTemp();
     return {
       schema: [
         { name: 'name', selector: { text: {} } },
@@ -9092,8 +9139,9 @@ class AppliancePelletBoilerCard extends HTMLElement {
           { name: 'threshold', selector: { number: { min: 0, max: 500, step: 1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'ignition_threshold', selector: { number: { min: 50, max: 2000, step: 10, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'pellet_alert', selector: { number: { min: 0, max: 50, step: 1, mode: 'box', unit_of_measurement: '%' } } },
-          { name: 'flow_temp_max', selector: { number: { min: 40, max: 95, step: 1, mode: 'box', unit_of_measurement: '°C' } } },
+          { name: 'flow_temp_max', selector: { number: { ...tc.range(40, 95), step: 1, mode: 'box', unit_of_measurement: tc.unit } } },
         ] },
+        window.applianceTempField,
         { type: 'grid', name: '', schema: [
           { name: 'show_power', selector: { boolean: {} }, default: true },
           { name: 'show_energy', selector: { boolean: {} }, default: true },
@@ -9111,7 +9159,7 @@ class AppliancePelletBoilerCard extends HTMLElement {
   setConfig(config) {
     if (window.applianceSize) window.applianceSize(this, config);
     this._config = { show_power: true, show_energy: true, show_cost: true, show_temps: true, show_pellets: true, show_status: true,
-      price_per_kwh: 0, threshold: 30, ignition_threshold: 300, pellet_alert: 15, flow_temp_max: 80, ...config };
+      price_per_kwh: 0, threshold: 30, ignition_threshold: 300, pellet_alert: 15, ...config };
     this._built = false; this._build();
   }
   set hass(h) {
@@ -9279,7 +9327,9 @@ class AppliancePelletBoilerCard extends HTMLElement {
     if (!this._built || !this._hass) return;
     const c = this._config, r = this.shadowRoot;
     const w = this._num(c.entity_power), e = this._num(c.entity_energy);
-    const dep = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp), lvl = this._num(c.entity_pellet_level);
+    // températures dans l'unité d'affichage (°C / °F)
+    const tc = window.applianceTemp(this._hass, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+    const dep = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp), lvl = this._num(c.entity_pellet_level);
     let cost = this._num(c.entity_cost); if (cost === null && e !== null && c.price_per_kwh) cost = e * c.price_per_kwh;
     const st = this._state(w);
     const low = lvl !== null && lvl <= c.pellet_alert;
@@ -9290,11 +9340,12 @@ class AppliancePelletBoilerCard extends HTMLElement {
     // Vitesse de la vis selon la puissance (si connue)
     r.getElementById('svg').style.setProperty('--fs', `${st === 'ignition' ? 0.8 : 1.4}s`);
 
-    // Tuyaux : cuivre froid → rouge chaud (départ), cuivre → orange (retour)
-    const mix = (t) => { const k = t === null ? 0 : Math.max(0, Math.min(1, (t - 25) / (c.flow_temp_max - 25)));
+    // Tuyaux : cuivre froid → rouge chaud (départ), cuivre → orange (retour) ; dégradé calculé en °C (25 → flow_temp_max, 80 °C par défaut)
+    const fMax = c.flow_temp_max != null ? tc.toC(c.flow_temp_max) : 80;
+    const mix = (t) => { const k = t === null ? 0 : Math.max(0, Math.min(1, (tc.toC(t) - 25) / (fMax - 25)));
       const a = [184, 115, 51], b = [229, 57, 53]; return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`; };
     r.getElementById('pdep').style.stroke = mix(dep);
-    r.getElementById('pret').style.stroke = mix(ret === null ? null : ret - 10);
+    r.getElementById('pret').style.stroke = mix(ret === null ? null : ret - tc.d(10));
     r.getElementById('tdep').textContent = dep === null ? '' : `▲ ${Math.round(dep)}°`;
     r.getElementById('tret').textContent = ret === null ? '' : `▼ ${Math.round(ret)}°`;
 
@@ -9307,15 +9358,15 @@ class AppliancePelletBoilerCard extends HTMLElement {
 
     // Écran
     const lab = r.getElementById('lab'), val = r.getElementById('val');
-    if (st === 'heating') { lab.textContent = this._t('flow').toUpperCase(); val.textContent = dep === null ? 'ON' : `${Math.round(dep)}°C`; }
-    else if (st === 'off') { lab.textContent = this._t('off').toUpperCase(); val.textContent = dep === null ? '--' : `${Math.round(dep)}°C`; }
+    if (st === 'heating') { lab.textContent = this._t('flow').toUpperCase(); val.textContent = dep === null ? 'ON' : `${Math.round(dep)}${tc.unit}`; }
+    else if (st === 'off') { lab.textContent = this._t('off').toUpperCase(); val.textContent = dep === null ? '--' : `${Math.round(dep)}${tc.unit}`; }
     else { lab.textContent = ''; val.textContent = this._t(st).toUpperCase().slice(0, 9); }
 
     const f = (v, d, u) => (v === null ? '—' : `${v.toFixed(d)} ${u}`);
     const it = [];
     if (c.show_status) it.push([this._l('status'), this._t(st)]);
     if (c.show_power) it.push([this._l('power'), w === null ? '—' : w >= 1000 ? `${(w / 1000).toFixed(1)} kW` : `${Math.round(w)} W`]);
-    if (c.show_temps) { it.push([this._l('flow'), f(dep, 0, '°C')]); it.push([this._l('ret'), f(ret, 0, '°C')]); }
+    if (c.show_temps) { it.push([this._l('flow'), f(dep, 0, tc.unit)]); it.push([this._l('ret'), f(ret, 0, tc.unit)]); }
     if (c.show_pellets) it.push([this._l('pellets'), f(lvl, 0, '%')]);
     if (c.show_energy) it.push([this._l('energy'), f(e, 1, 'kWh')]);
     if (c.show_cost && cost !== null) it.push([this._l('cost'), f(cost, 2, '€')]);
@@ -9619,7 +9670,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_gas: true, show_cost: true, show_temps: true,
         show_pressure: true, show_modulation: true, show_status: true, threshold: 15, off_threshold: 0.5,
-        pressure_min: 1, pressure_max: 2.5, flow_temp_max: 80, ...c };
+        pressure_min: 1, pressure_max: 2.5, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -9698,14 +9749,17 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, h = this._hass, card = this._card, r = this._root;
       const { st, burning, pump, pw } = this._compute();
-      const flow = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp);
+      // températures dans l'unité d'affichage (°C / °F) ; flow_temp_max par défaut : 80 °C
+      const tc = window.applianceTemp(h, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+      const flow = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp), flowMax = c.flow_temp_max ?? tc.c(80);
       const press = this._num(c.entity_pressure);
       let mod = this._num(c.entity_modulation); mod = isNaN(mod) ? 1 : Math.max(0, Math.min(100, mod)) / 100;
       card.className = `${st} ${burning ? 'burning' : ''} ${pump ? 'pump' : ''} ${c.animations === false ? 'noanim' : ''}`;
       card.style.setProperty('--mod', mod);
-      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (t - 25) / 50)) * 100)}%, #3b8fe8)`;
-      card.style.setProperty('--gb-flowc', tc(flow, '#e5533d'));
-      card.style.setProperty('--gb-retc', tc(ret, '#3b8fe8'));
+      // couleur des tuyaux : bleu à 25 °C, rouge à 75 °C
+      const pipe = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (tc.toC(t) - 25) / 50)) * 100)}%, #3b8fe8)`;
+      card.style.setProperty('--gb-flowc', pipe(flow, '#e5533d'));
+      card.style.setProperty('--gb-retc', pipe(ret, '#3b8fe8'));
 
       r.getElementById('title').textContent = c.name || this._t('name');
       const badge = r.getElementById('badge'); badge.textContent = this._t(st); badge.style.display = c.show_status === false ? 'none' : '';
@@ -9723,7 +9777,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
       let al = '';
       if (!isNaN(press) && press < c.pressure_min) al = `${this._t('lowp')} (${this._fmt(press, 1)} bar)`;
       else if (!isNaN(press) && press > c.pressure_max) al = `${this._t('highp')} (${this._fmt(press, 1)} bar)`;
-      else if (!isNaN(flow) && flow > c.flow_temp_max) al = this._t('hotf');
+      else if (!isNaN(flow) && flow > flowMax) al = this._t('hotf');
       const ae = r.getElementById('alert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -9735,8 +9789,8 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
         gas: [c.entity_gas, this._fmt(gas, 2), this._unit(c.entity_gas, 'm³')],
         cost: [c.entity_cost || (c.price_per_unit && c.entity_gas), this._fmt(cost, 2), costU],
-        flow: [c.entity_flow_temp, this._fmt(flow, 1), '°C'],
-        ret: [c.entity_return_temp, this._fmt(ret, 1), '°C'],
+        flow: [c.entity_flow_temp, this._fmt(flow, 1), tc.unit],
+        ret: [c.entity_return_temp, this._fmt(ret, 1), tc.unit],
         pressure: [c.entity_pressure, this._fmt(press, 2), 'bar'],
         mod: [c.entity_modulation, this._fmt(mod * 100, 0), '%'],
       };
@@ -9781,6 +9835,7 @@ svg{display:block;width:100%;max-width:calc(170px * var(--illus-scale,1));height
           { name: 'threshold', selector: { number: { min: 0, max: 2000, step: 1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'off_threshold', selector: { number: { min: 0, max: 500, step: 0.1, mode: 'box', unit_of_measurement: 'W' } } },
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },
@@ -10143,6 +10198,7 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
             { name: 'heating_delay', selector: { number: { min: 0, max: 600, step: 1, mode: 'box', unit_of_measurement: 's' } } },
           ] },
           { type: 'grid', name: '', schema: SHOW.map((name) => ({ name, selector: { boolean: {} }, default: true })) },
+          window.applianceTempField,
           { name: 'language', selector: { select: { options: Object.keys(T) } } },
         ],
         computeLabel: (s) => window.applianceEditorLabel(s.name),
@@ -10260,13 +10316,15 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, run, src, chg, circ, pw, heat, rate } = this._compute();
-      const flow = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp);
+      // températures dans l'unité d'affichage (°C / °F)
+      const tu = window.applianceTemp(this._hass, c), tv = (id) => tu.conv(this._num(id), this._st(id));
+      const flow = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp);
       card.className = `${st} ${run ? 'run' : ''} ${src ? 'src' : ''} ${chg ? 'chg' : ''} ${circ ? 'circ' : ''} ${c.buffer_tank ? 'buffer' : ''} ${c.animations === false ? 'noanim' : ''}`;
       // départ / retour : bleu à 20 °C, rouge à 55 °C (températures de PAC, plus basses qu'une chaudière)
-      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (t - 20) / 35)) * 100)}%, #3b8fe8)`;
+      const tc = (t, d) => isNaN(t) ? d : `color-mix(in srgb, #e5392b ${Math.round(Math.max(0, Math.min(1, (tu.toC(t) - 20) / 35)) * 100)}%, #3b8fe8)`;
       card.style.setProperty('--wp-flowc', tc(flow, '#e5533d'));
       card.style.setProperty('--wp-retc', tc(ret, '#3b8fe8'));
-      const buf = this._num(c.entity_buffer_temp);
+      const buf = tv(c.entity_buffer_temp);
       card.style.setProperty('--wp-tankc', tc(isNaN(buf) ? flow : buf, '#e5533d'));
 
       r.getElementById('title').textContent = c.name || this._t('name');
@@ -10281,12 +10339,12 @@ svg{display:block;width:100%;max-width:calc(100% * var(--illus-scale,1));height:
         power: [c.entity_power, ...this._kw(pw)],
         heat: [c.entity_heat_power, ...this._kw(heat)],
         cop: [hasCop, this._fmt(cop, 1), ''],
-        flow: [c.entity_flow_temp, this._fmt(flow, 1), '°C'],
-        ret: [c.entity_return_temp, this._fmt(ret, 1), '°C'],
-        delta: [c.entity_flow_temp && c.entity_return_temp, this._fmt(flow - ret, 1), 'K'],
-        buffer: [c.entity_buffer_temp, this._fmt(buf, 1), '°C'],
-        src_in: [c.entity_source_in_temp, this._fmt(this._num(c.entity_source_in_temp), 1), '°C'],
-        src_out: [c.entity_source_out_temp, this._fmt(this._num(c.entity_source_out_temp), 1), '°C'],
+        flow: [c.entity_flow_temp, this._fmt(flow, 1), tu.unit],
+        ret: [c.entity_return_temp, this._fmt(ret, 1), tu.unit],
+        delta: [c.entity_flow_temp && c.entity_return_temp, this._fmt(flow - ret, 1), tu.unit === '°F' ? '°F' : 'K'],
+        buffer: [c.entity_buffer_temp, this._fmt(buf, 1), tu.unit],
+        src_in: [c.entity_source_in_temp, this._fmt(tv(c.entity_source_in_temp), 1), tu.unit],
+        src_out: [c.entity_source_out_temp, this._fmt(tv(c.entity_source_out_temp), 1), tu.unit],
         rate: [c.entity_flow_rate, this._fmt(rate, 2), this._unit(c.entity_flow_rate, 'l/h')],
         energy: [c.entity_energy, ...this._kwh(c.entity_energy)],
         heat_energy: [c.entity_heat_energy, ...this._kwh(c.entity_heat_energy)],
@@ -10629,7 +10687,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_fuel: true, show_fuel_used: true, show_cost: true, show_temps: true,
-        show_status: true, threshold: 15, ignition_threshold: 60, off_threshold: 0.5, fuel_alert: 15, flue_temp_max: 300, ...c };
+        show_status: true, threshold: 15, ignition_threshold: 60, off_threshold: 0.5, fuel_alert: 15, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -10708,7 +10766,9 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, pw } = this._compute();
-      const temp = this._num(c.entity_temp), flue = this._num(c.entity_flue_temp);
+      // températures dans l'unité d'affichage (°C / °F) ; flue_temp_max par défaut : 300 °C
+      const tc = window.applianceTemp(this._hass, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+      const temp = tv(c.entity_temp), flue = tv(c.entity_flue_temp), flueMax = c.flue_temp_max ?? tc.c(300);
       let fuel = this._num(c.entity_fuel_level);
       const low = !isNaN(fuel) && fuel < Number(c.fuel_alert);
       let mod = this._num(c.entity_modulation); mod = isNaN(mod) ? 1 : Math.max(0, Math.min(100, mod)) / 100;
@@ -10727,7 +10787,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
       // alertes
       let al = '';
       if (low) al = `${this._t('lowfuel')} (${this._fmt(fuel, 0)} %)`;
-      else if (!isNaN(flue) && flue > c.flue_temp_max) al = this._t('hotflue');
+      else if (!isNaN(flue) && flue > flueMax) al = this._t('hotflue');
       const ae = r.getElementById('dhalert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -10740,14 +10800,14 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
         fuel: [c.entity_fuel_level, this._fmt(fuel, 0), '%'],
         used: [c.entity_fuel_used, this._fmt(used, 1), this._unit(c.entity_fuel_used, 'L')],
         cost: [c.entity_cost || (c.price_per_liter && c.entity_fuel_used), this._fmt(cost, 2), costU],
-        temp: [c.entity_temp, this._fmt(temp, 1), '°C'],
-        flue: [c.entity_flue_temp, this._fmt(flue, 0), '°C'],
+        temp: [c.entity_temp, this._fmt(temp, 1), tc.unit],
+        flue: [c.entity_flue_temp, this._fmt(flue, 0), tc.unit],
       };
       const ENT = { power: c.entity_power, energy: c.entity_energy, fuel: c.entity_fuel_level, used: c.entity_fuel_used, cost: c.entity_cost, temp: c.entity_temp, flue: c.entity_flue_temp };
       TILES.forEach(([k, , opt]) => {
         const el = r.querySelector(`.tile[data-k="${k}"]`); const [ent, val, unit] = V[k];
         el.classList.toggle('hide', !ent || c[opt] === false);
-        el.classList.toggle('bad', (k === 'fuel' && low) || (k === 'flue' && !isNaN(flue) && flue > c.flue_temp_max));
+        el.classList.toggle('bad', (k === 'fuel' && low) || (k === 'flue' && !isNaN(flue) && flue > flueMax));
         el.querySelector('.lbl').textContent = this._l(k);
         // valeur + unité en texte (l'unité vient de l'entité ou de la config)
         const small = document.createElement('small'); small.textContent = unit ?? '';
@@ -10789,6 +10849,7 @@ svg{display:block;width:100%;max-width:calc(190px * var(--illus-scale,1));height
           { name: 'off_threshold', selector: { number: { min: 0, max: 500, step: 0.1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'fuel_alert', selector: { number: { min: 0, max: 100, step: 1, mode: 'box', unit_of_measurement: '%' } } },
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },
@@ -11103,7 +11164,7 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_temp: true, show_ph: true, show_cost: true, show_status: true,
         filter_threshold: 30, jets_threshold: 700, heater_threshold: 1800, power_max: 2500, off_threshold: 0.5,
-        ph_min: 7, ph_max: 7.8, temp_max: 40, ...c };
+        ph_min: 7, ph_max: 7.8, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -11192,7 +11253,9 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, pw } = this._compute();
-      const temp = this._num(c.entity_temp), target = this._tgt(c.entity_target_temp), ph = this._num(c.entity_ph);
+      // températures dans l'unité d'affichage (°C / °F) ; temp_max par défaut : 40 °C
+      const tc = window.applianceTemp(this._hass, c), tMax = c.temp_max ?? tc.c(40);
+      const temp = tc.conv(this._num(c.entity_temp), this._st(c.entity_temp)), target = tc.conv(this._tgt(c.entity_target_temp), this._st(c.entity_target_temp)), ph = this._num(c.entity_ph);
       // vitesse des animations : suit la puissance (0.7 à 2.3), 1.4 si on ne la connaît pas en mode jets
       const spd = !isNaN(pw) ? 0.7 + 1.6 * Math.max(0, Math.min(1, pw / Number(c.power_max || 2500))) : (st === 'jets' ? 1.4 : 1);
       // éclairage : entité allumée ; la couleur vient de rgb_color si la lumière la fournit
@@ -11207,11 +11270,11 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       r.getElementById('jzdsp').textContent = st === 'off' ? 'OFF' : st === 'alarm' ? 'Err' : !isNaN(temp) ? `${this._fmt(temp, 1)}°` : '--';
 
       // alertes : pH hors plage, eau trop chaude
-      const phBad = !isNaN(ph) && (ph < Number(c.ph_min) || ph > Number(c.ph_max)), hot = !isNaN(temp) && temp > Number(c.temp_max);
+      const phBad = !isNaN(ph) && (ph < Number(c.ph_min) || ph > Number(c.ph_max)), hot = !isNaN(temp) && temp > Number(tMax);
       let al = '';
       if (!isNaN(ph) && ph < Number(c.ph_min)) al = `${this._t('lowph')} (${this._fmt(ph, 1)})`;
       else if (!isNaN(ph) && ph > Number(c.ph_max)) al = `${this._t('highph')} (${this._fmt(ph, 1)})`;
-      else if (hot) al = `${this._t('hot')} (${this._fmt(temp, 1)} °C)`;
+      else if (hot) al = `${this._t('hot')} (${this._fmt(temp, 1)} ${tc.unit})`;
       const ae = r.getElementById('jzalert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -11221,8 +11284,8 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       const V = {
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
-        temp: [c.entity_temp, this._fmt(temp, 1), '°C'],
-        target: [c.entity_target_temp, this._fmt(target, 1), '°C'],
+        temp: [c.entity_temp, this._fmt(temp, 1), tc.unit],
+        target: [c.entity_target_temp, this._fmt(target, 1), tc.unit],
         ph: [c.entity_ph, this._fmt(ph, 1), ''],
         cost: [c.entity_cost || (c.price_per_kwh && c.entity_energy), this._fmt(cost, 2), costU],
       };
@@ -11256,6 +11319,7 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       }
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, unit) => ({ name, selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
+      const tc = window.applianceTemp(this._hass, this._c), tr = (n, min, max, step) => ({ name: n, selector: { number: { ...tc.range(min, max), step, mode: 'box', unit_of_measurement: tc.unit } } });
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -11269,9 +11333,10 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
         { type: 'grid', name: '', schema: [
           num('filter_threshold', 0, 2000, 1, 'W'), num('jets_threshold', 0, 5000, 1, 'W'),
           num('heater_threshold', 0, 10000, 1, 'W'), num('power_max', 100, 10000, 10, 'W'),
-          num('off_threshold', 0, 500, 0.1, 'W'), num('temp_max', 20, 60, 0.5, '°C'),
+          num('off_threshold', 0, 500, 0.1, 'W'), tr('temp_max', 20, 60, 0.5),
           num('ph_min', 0, 14, 0.1), num('ph_max', 0, 14, 0.1),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },
@@ -11972,7 +12037,7 @@ ha-card{display:block;padding:10px 12px 12px;overflow:hidden;--acc-move:var(--ap
  * Cabine en lames de bois vue de face : porte vitrée teintée, poêle et pierres visibles à travers
  * la vitre, banquette, plafonnier, conduit de ventilation sur le toit, thermomètre et panneau.
  * États : off, heating, ready, cooling, fault. La lueur du poêle suit la température
- * (--heat, 0 → 1 de 25 °C à la consigne), ondes de chaleur en chauffe, vapeur au conduit,
+ * (--heat, 0 → 1 de 25 °C à la consigne ; °C ou °F selon temperature_unit / Home Assistant), ondes de chaleur en chauffe, vapeur au conduit,
  * thermomètre animé, boutons marche/arrêt et consigne ± pour une entité climate.
  */
 (() => {
@@ -12245,7 +12310,7 @@ svg{display:block;width:100%;max-width:calc(250px * var(--illus-scale,1));height
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_status: true, show_controls: true, show_temp: true, show_humidity: true, show_power: true, show_energy: true, show_cost: true,
-        target_temp: 80, ready_margin: 3, heater_threshold: 300, off_threshold: 5, temp_max: 110, temp_scale: 120, ...c };
+        heater_threshold: 300, off_threshold: 5, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -12325,39 +12390,43 @@ svg{display:block;width:100%;max-width:calc(250px * var(--illus-scale,1));height
     _compute() {
       const c = this._c, s = this._st(c.entity), a = (s && s.attributes) || {};
       const pw = this._watts(c.entity_power);
-      let temp = this._num(c.entity_temp);
-      if (isNaN(temp) && isFinite(Number(a.current_temperature))) temp = Number(a.current_temperature);
-      let target = this._tgt(c.entity_target_temp);
-      if (isNaN(target) && isFinite(Number(a.temperature))) target = Number(a.temperature);
-      if (isNaN(target)) target = Number(c.target_temp);
+      // températures dans l'unité d'affichage (°C / °F) ; réglages par défaut écrits en °C, convertis
+      const tc = window.applianceTemp(this._hass, c);
+      let temp = tc.conv(this._num(c.entity_temp), this._st(c.entity_temp));
+      if (isNaN(temp) && isFinite(Number(a.current_temperature))) temp = tc.conv(Number(a.current_temperature), s);
+      let target = tc.conv(this._tgt(c.entity_target_temp), this._st(c.entity_target_temp));
+      if (isNaN(target) && isFinite(Number(a.temperature))) target = tc.conv(Number(a.temperature), s);
+      if (isNaN(target)) target = Number(c.target_temp ?? tc.c(80));
+      const t = { tc, temp, target, tMax: Number(c.temp_max ?? tc.c(110)), tScale: Number(c.temp_scale ?? tc.c(120)) };
       const txt = s ? String(s.state).toLowerCase() : '';
       let on;
-      if (/error|erreur|fault|défaut|defaut|alarm/.test(txt)) return { st: 'fault', pw, temp, target };
+      if (/error|erreur|fault|défaut|defaut|alarm/.test(txt)) return { st: 'fault', pw, ...t };
       if (s && !/^(unavailable|unknown)$/.test(txt)) on = !/^(off|false|0|arr[eê]t|éteint|eteint)$/.test(txt);
       else on = !isNaN(pw) && pw > Number(c.off_threshold);
       let st;
-      if (!on) st = !isNaN(temp) && temp > 40 ? 'cooling' : 'off';
-      else if (!isNaN(temp)) st = temp >= target - Number(c.ready_margin) ? 'ready' : 'heating';
+      if (!on) st = !isNaN(temp) && temp > tc.c(40) ? 'cooling' : 'off';
+      else if (!isNaN(temp)) st = temp >= target - Number(c.ready_margin ?? tc.d(3)) ? 'ready' : 'heating';
       else if (a.hvac_action) st = /heat/.test(String(a.hvac_action)) ? 'heating' : 'ready';
       else st = !isNaN(pw) && pw < Number(c.heater_threshold) ? 'ready' : 'heating';
-      return { st, pw, temp, target };
+      return { st, pw, ...t };
     }
 
     _render() {
       if (!this._built) this._build();
       const c = this._c, r = this._root, card = this._card;
-      const { st, pw, temp, target } = this._compute();
+      const { st, pw, tc, temp, target, tMax, tScale } = this._compute();
       const clamp = (v) => Math.max(0, Math.min(1, v));
-      const heat = !isNaN(temp) ? clamp((temp - 25) / Math.max(1, target - 25)) : ({ heating: 0.6, ready: 1, cooling: 0.3 }[st] || 0);
+      // lueur et thermomètre calculés en °C
+      const heat = !isNaN(temp) ? clamp((tc.toC(temp) - 25) / Math.max(1, tc.toC(target) - 25)) : ({ heating: 0.6, ready: 1, cooling: 0.3 }[st] || 0);
       card.className = `${st} ${c.animations === false ? 'noanim' : ''}`;
       card.style.setProperty('--heat', (st === 'off' || st === 'fault' ? 0 : heat).toFixed(3));
-      card.style.setProperty('--tf', (isNaN(temp) ? 0 : clamp(temp / Number(c.temp_scale || 120))).toFixed(3));
+      card.style.setProperty('--tf', (isNaN(temp) ? 0 : clamp(tc.toC(temp) / (tc.toC(tScale) || 120))).toFixed(3));
 
       r.getElementById('sntitle').textContent = c.name || this._t('name');
       const badge = r.getElementById('snbadge'); badge.textContent = this._t(st); badge.style.display = c.show_status === false ? 'none' : '';
       r.getElementById('sndsp').textContent = st === 'off' ? 'OFF' : st === 'fault' ? 'Err' : !isNaN(temp) ? `${this._fmt(temp, 0)}°` : 'ON';
-      const hot = !isNaN(temp) && temp > Number(c.temp_max);
-      const al = r.getElementById('snalert'); al.textContent = hot ? `${this._t('overheat')} (${this._fmt(temp, 0)} °C)` : ''; al.classList.toggle('on', hot);
+      const hot = !isNaN(temp) && temp > tMax;
+      const al = r.getElementById('snalert'); al.textContent = hot ? `${this._t('overheat')} (${this._fmt(temp, 0)} ${tc.unit})` : ''; al.classList.toggle('on', hot);
 
       // commandes : marche/arrêt, et consigne ± seulement pour une entité climate
       const d = (c.entity || '').split('.')[0];
@@ -12371,8 +12440,8 @@ svg{display:block;width:100%;max-width:calc(250px * var(--illus-scale,1));height
       let cost = this._num(c.entity_cost), costU = this._unit(c.entity_cost, c.currency || '€');
       if (isNaN(cost) && c.price_per_kwh && !isNaN(energy)) { cost = energy * Number(c.price_per_kwh); costU = c.currency || '€'; }
       const V = {
-        temp: [!isNaN(temp), this._fmt(temp, 0), '°C'],
-        target: [!isNaN(target), this._fmt(target, 0), '°C'],
+        temp: [!isNaN(temp), this._fmt(temp, 0), tc.unit],
+        target: [!isNaN(target), this._fmt(target, 0), tc.unit],
         humidity: [c.entity_humidity, this._fmt(hum, 0), '%'],
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
@@ -12406,6 +12475,10 @@ svg{display:block;width:100%;max-width:calc(250px * var(--illus-scale,1));height
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, unit) => ({ name, selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
       const bool = (name) => ({ name, selector: { boolean: {} }, default: true });
+      // champs de température dans l'unité d'affichage (bornes données en °C) ; dlt : écart (marge)
+      const tc = window.applianceTemp(this._hass, this._c);
+      const tnum = (name, min, max, step) => ({ name, selector: { number: { ...tc.range(min, max), step, mode: 'box', unit_of_measurement: tc.unit } } });
+      const dlt = (name, max, step) => ({ name, selector: { number: { min: 0, max: Math.ceil(tc.d(max)), step, mode: 'box', unit_of_measurement: tc.unit } } });
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -12417,10 +12490,11 @@ svg{display:block;width:100%;max-width:calc(250px * var(--illus-scale,1));height
         ent('entity_power', 'sensor'), ent('entity_energy', 'sensor'), ent('entity_cost', 'sensor'),
         { name: 'price_per_kwh', selector: { number: { min: 0, step: 0.0001, mode: 'box' } } },
         { type: 'grid', name: '', schema: [
-          num('target_temp', 40, 120, 1, '°C'), num('ready_margin', 0, 20, 0.5, '°C'),
+          tnum('target_temp', 40, 120, 1), dlt('ready_margin', 20, 0.5),
           num('heater_threshold', 0, 15000, 10, 'W'), num('off_threshold', 0, 500, 0.5, 'W'),
-          num('temp_max', 60, 140, 1, '°C'), num('temp_scale', 60, 150, 1, '°C'),
+          tnum('temp_max', 60, 140, 1), tnum('temp_scale', 60, 150, 1),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_temp'), bool('show_humidity'),
@@ -12976,8 +13050,10 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     setConfig(c) {
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
+      // temp_max par défaut (en °C dans KINDS) : converti dans l'unité d'affichage au rendu
+      const { temp_max, ...d } = KINDS[this.kind].d;
       this._c = { show_status: true, show_controls: true, show_flow: true, show_pressure: true, show_power: true, show_temp: true, show_level: true,
-        show_runtime: true, show_starts: true, show_energy: true, show_cost: true, no_flow_threshold: 0.5, ...KINDS[this.kind].d, ...c };
+        show_runtime: true, show_starts: true, show_energy: true, show_cost: true, no_flow_threshold: 0.5, ...d, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -13043,10 +13119,12 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _compute() {
       const c = this._c, s = this._st(c.entity);
       const pw = this._watts(c.entity_power), flow = this._lpm(c.entity_flow), pres = this._num(c.entity_pressure);
-      const temp = this._num(c.entity_temp), level = this._num(c.entity_level);
+      // température dans l'unité d'affichage (°C / °F)
+      const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temp), this._st(c.entity_temp)), level = this._num(c.entity_level);
+      const tMax = c.temp_max ?? tc.c(KINDS[this.kind].d.temp_max);
       const txt = s ? String(s.state).toLowerCase() : '';
       const fault = this._st(c.entity_fault);
-      const v = { pw, flow, pres, temp, level, alerts: [] };
+      const v = { pw, flow, pres, temp, tUnit: tc.unit, level, alerts: [] };
       if ((fault && fault.state === 'on') || /error|erreur|fault|défaut|defaut|alarm|trip/.test(txt)) return { ...v, st: 'fault' };
       let on;
       if (s && !/^(unavailable|unknown)$/.test(txt)) on = !/^(off|false|0|arr[eê]t|éteint|eteint|idle|stopped)$/.test(txt);
@@ -13056,7 +13134,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       // alertes : marche à sec (pas de débit), surpression, moteur trop chaud, niveau bas
       if (on && !isNaN(flow) && flow < Number(c.no_flow_threshold)) v.alerts.push('no_flow');
       if (!isNaN(pres) && pres > Number(c.pressure_max)) v.alerts.push('overpressure');
-      if (!isNaN(temp) && temp > Number(c.temp_max)) v.alerts.push('overheat');
+      if (!isNaN(temp) && temp > Number(tMax)) v.alerts.push('overheat');
       if (KINDS[this.kind].sump) {
         // relevage : c'est le niveau HAUT qui est dangereux (débordement), signalé par le capteur ou le flotteur d'alarme
         const fl = this._st(c.entity_float);
@@ -13069,7 +13147,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _render() {
       if (!this._built) this._build();
       const c = this._c, r = this._root, card = this._card, K = KINDS[this.kind];
-      const { st, pw, flow, pres, temp, level, alerts } = this._compute();
+      const { st, pw, flow, pres, temp, tUnit, level, alerts } = this._compute();
       const flowRaw = this._num(c.entity_flow); // valeur affichée, dans l'unité du capteur
       const clamp = (x) => Math.max(0, Math.min(1, x));
       const on = st === 'running' || st === 'warning';
@@ -13110,7 +13188,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
         flow: [c.entity_flow, this._fmt(flowRaw, 1), this._unit(c.entity_flow, 'L/min')],
         pressure: [c.entity_pressure, this._fmt(pres, 1), this._unit(c.entity_pressure, 'bar')],
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
-        temp: [c.entity_temp, this._fmt(temp, 0), this._unit(c.entity_temp, '°C')],
+        temp: [c.entity_temp, this._fmt(temp, 0), tUnit],
         level: [c.entity_level, this._fmt(level, 0), this._unit(c.entity_level, '%')],
         runtime: [c.entity_runtime, this._fmt(run, 1), this._unit(c.entity_runtime, 'h')],
         starts: [c.entity_starts, this._fmt(starts, 0), ''],
@@ -13146,6 +13224,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, unit) => ({ name, default: D[name], selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
       const bool = (name) => ({ name, selector: { boolean: {} }, default: true });
+      const tc = window.applianceTemp(this._hass, this._c);
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -13161,8 +13240,9 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
         { name: 'fluid_color', selector: { text: {} } },
         { type: 'grid', name: '', schema: [
           num('max_flow', 1, 10000, 1, 'L/min'), num('max_power', 10, 100000, 10, 'W'), num('run_threshold', 0, 5000, 1, 'W'),
-          num('max_pressure', 1, 100, 0.5, 'bar'), num('pressure_max', 0, 100, 0.1, 'bar'), num('temp_max', 20, 150, 1, '°C'), KINDS[this.kind].sump ? num('level_max', 0, 100, 1, '%') : num('level_min', 0, 100, 1, '%'),
+          num('max_pressure', 1, 100, 0.5, 'bar'), num('pressure_max', 0, 100, 0.1, 'bar'), { name: 'temp_max', default: tc.c(D.temp_max), selector: { number: { ...tc.range(20, 150), step: 1, mode: 'box', unit_of_measurement: tc.unit } } }, KINDS[this.kind].sump ? num('level_max', 0, 100, 1, '%') : num('level_min', 0, 100, 1, '%'),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_flow'), bool('show_pressure'), bool('show_power'), bool('show_temp'),
@@ -13651,7 +13731,9 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
       const c = this._c, r = this._root, card = this._card;
       const st = this._compute(), clamp = (x) => Math.max(0, Math.min(1, x));
       const s = this._st(c.entity), attr = (s && s.attributes) || {};
-      const filter = this._num(c.entity_filter), lvl = this._num(c.entity_water_level), temp = this._num(c.entity_water_temp);
+      const filter = this._num(c.entity_filter), lvl = this._num(c.entity_water_level);
+      // température dans l'unité d'affichage (°C / °F)
+      const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_water_temp), this._st(c.entity_water_temp));
       const time = this._minutes(c.entity_time), pw = this._watts(c.entity_power), energy = this._num(c.entity_energy);
       let batt = this._num(c.entity_battery); if (isNaN(batt) && isFinite(Number(attr.battery_level))) batt = Number(attr.battery_level);
       const full = Number(c.water_level_full) || 100;
@@ -13693,7 +13775,7 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
         status: [true, this._t(st), ''],
         filter: [c.entity_filter, this._fmt(filter, 0), this._unit(c.entity_filter, '%')],
         water_level: [c.entity_water_level, this._fmt(lvl, 0), this._unit(c.entity_water_level, '%')],
-        water_temp: [c.entity_water_temp, this._fmt(temp, 1), this._unit(c.entity_water_temp, '°C')],
+        water_temp: [c.entity_water_temp, this._fmt(temp, 1), tc.unit],
         time: [c.entity_time, isNaN(time) ? '--' : time >= 60 ? `${Math.floor(time / 60)} h ${String(Math.round(time % 60)).padStart(2, '0')}` : this._fmt(time, 0), isNaN(time) || time >= 60 ? '' : 'min'],
         battery: [c.entity_battery || isFinite(Number(attr.battery_level)), this._fmt(batt, 0), '%'],
         mode: [c.entity_mode, mode ? String(mode.state) : '--', ''],
@@ -13742,6 +13824,7 @@ svg{display:block;width:100%;max-width:calc(280px * var(--illus-scale,1));height
         { type: 'grid', name: '', schema: [
           num('filter_alert', 0, 100, 1, 80), num('water_level_min', 0, 1000, 1, 70), num('water_level_full', 1, 1000, 1, 100), num('run_threshold', 0, 2000, 1, 30),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_status_tile'), bool('show_filter'), bool('show_water_level'), bool('show_water_temp'),
@@ -14486,7 +14569,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_status: true, show_controls: true, show_temp: true, show_floor: true, show_water: true, show_power: true, show_energy: true, show_cost: true,
-        heating_type: 'water', floor_max: 29, water_max: 45, heat_threshold: 20, ...c };
+        heating_type: 'water', heat_threshold: 20, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -14562,12 +14645,14 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _compute() {
       const c = this._c, s = this._st(c.entity), a = (s && s.attributes) || {};
       const pw = this._watts(c.entity_power);
-      let temp = this._num(c.entity_temp);
-      if (isNaN(temp) && isFinite(Number(a.current_temperature))) temp = Number(a.current_temperature);
-      let target = this._tgt(c.entity_target_temp);
-      if (isNaN(target) && isFinite(Number(a.temperature))) target = Number(a.temperature);
-      const floor = this._num(c.entity_floor_temp), water = this._num(c.entity_water_temp);
-      const v = { pw, temp, target, floor, water };
+      // températures dans l'unité d'affichage (°C / °F) ; seuils par défaut : sol 29 °C, eau 45 °C
+      const tc = window.applianceTemp(this._hass, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+      let temp = tv(c.entity_temp);
+      if (isNaN(temp) && isFinite(Number(a.current_temperature))) temp = tc.conv(Number(a.current_temperature), s);
+      let target = tc.conv(this._tgt(c.entity_target_temp), this._st(c.entity_target_temp));
+      if (isNaN(target) && isFinite(Number(a.temperature))) target = tc.conv(Number(a.temperature), s);
+      const floor = tv(c.entity_floor_temp), water = tv(c.entity_water_temp);
+      const v = { pw, tc, temp, target, floor, water, floorMax: Number(c.floor_max ?? tc.c(29)), waterMax: Number(c.water_max ?? tc.c(45)) };
       const txt = s ? String(s.state).toLowerCase() : '';
       if (/error|erreur|fault|défaut|defaut|alarm/.test(txt)) return { ...v, st: 'fault' };
       if (s && !/^(unavailable|unknown)$/.test(txt)) {
@@ -14576,7 +14661,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
           // hvac_action fait foi, sinon on compare la pièce à la consigne
           if (a.hvac_action) return { ...v, st: /heat/.test(String(a.hvac_action)) ? 'heating' : /off/.test(String(a.hvac_action)) ? 'off' : 'idle' };
           if (!isNaN(pw)) return { ...v, st: pw > Number(c.heat_threshold) ? 'heating' : 'idle' };
-          return { ...v, st: !isNaN(temp) && !isNaN(target) && temp >= target - 0.2 ? 'idle' : 'heating' };
+          return { ...v, st: !isNaN(temp) && !isNaN(target) && temp >= target - tc.d(0.2) ? 'idle' : 'heating' };
         }
         if (!isNaN(pw)) return { ...v, st: pw > Number(c.heat_threshold) ? 'heating' : 'idle' };
         return { ...v, st: 'heating' };
@@ -14587,10 +14672,10 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _render() {
       if (!this._built) this._build();
       const c = this._c, r = this._root, card = this._card;
-      const { st, pw, temp, target, floor, water } = this._compute();
+      const { st, pw, tc, temp, target, floor, water, floorMax, waterMax } = this._compute();
       const clamp = (x) => Math.max(0, Math.min(1, x));
-      // lueur de la dalle : température du sol si connue (20 °C → floor_max), sinon selon l'état
-      const heat = !isNaN(floor) ? clamp((floor - 20) / Math.max(1, Number(c.floor_max) - 20)) : ({ heating: 0.8, idle: 0.3 }[st] || 0);
+      // lueur de la dalle : température du sol si connue (20 °C → floor_max, calcul en °C), sinon selon l'état
+      const heat = !isNaN(floor) ? clamp((tc.toC(floor) - 20) / Math.max(1, tc.toC(floorMax) - 20)) : ({ heating: 0.8, idle: 0.3 }[st] || 0);
       const elec = String(c.heating_type).toLowerCase() === 'electric';
       card.className = `${st}${elec ? ' elec' : ''} ${c.animations === false ? 'noanim' : ''}`;
       card.style.setProperty('--heat', (st === 'off' || st === 'fault' ? 0 : heat).toFixed(3));
@@ -14599,8 +14684,8 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       const badge = r.getElementById('ufbadge'); badge.textContent = this._t(st); badge.style.display = c.show_status === false ? 'none' : '';
       r.getElementById('ufdsp').textContent = st === 'off' ? 'OFF' : st === 'fault' ? 'Err' : !isNaN(temp) ? `${this._fmt(temp, 1)}°` : 'ON';
       const alerts = [];
-      if (!isNaN(floor) && floor > Number(c.floor_max)) alerts.push(this._t('floor_hot'));
-      if (!isNaN(water) && water > Number(c.water_max)) alerts.push(this._t('water_hot'));
+      if (!isNaN(floor) && floor > floorMax) alerts.push(this._t('floor_hot'));
+      if (!isNaN(water) && water > waterMax) alerts.push(this._t('water_hot'));
       const al = r.getElementById('ufalert'); al.textContent = alerts.join(' · '); al.classList.toggle('on', alerts.length > 0);
 
       // commandes : marche/arrêt, et consigne ± seulement pour une entité climate
@@ -14614,15 +14699,15 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       let cost = this._num(c.entity_cost), costU = this._unit(c.entity_cost, c.currency || '€');
       if (isNaN(cost) && c.price_per_kwh && !isNaN(energy)) { cost = energy * Number(c.price_per_kwh); costU = c.currency || '€'; }
       const V = {
-        temp: [!isNaN(temp), this._fmt(temp, 1), '°C'],
-        target: [!isNaN(target), this._fmt(target, 1), '°C'],
-        floor: [c.entity_floor_temp, this._fmt(floor, 1), '°C'],
-        water: [c.entity_water_temp, this._fmt(water, 0), '°C'],
+        temp: [!isNaN(temp), this._fmt(temp, 1), tc.unit],
+        target: [!isNaN(target), this._fmt(target, 1), tc.unit],
+        floor: [c.entity_floor_temp, this._fmt(floor, 1), tc.unit],
+        water: [c.entity_water_temp, this._fmt(water, 0), tc.unit],
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
         cost: [c.entity_cost || (c.price_per_kwh && c.entity_energy), this._fmt(cost, 2), costU],
       };
-      const bad = { floor: !isNaN(floor) && floor > Number(c.floor_max), water: !isNaN(water) && water > Number(c.water_max) };
+      const bad = { floor: !isNaN(floor) && floor > floorMax, water: !isNaN(water) && water > waterMax };
       TILES.forEach(([k, , opt]) => {
         const el = r.querySelector(`.tile[data-k="${k}"]`); const [show, val, unit] = V[k];
         el.classList.toggle('hide', !show || c[opt] === false);
@@ -14651,6 +14736,9 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, def, unit) => ({ name, default: def, selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
       const bool = (name) => ({ name, selector: { boolean: {} }, default: true });
+      // seuils de température dans l'unité d'affichage (bornes et défauts donnés en °C)
+      const tc = window.applianceTemp(this._hass, this._c);
+      const tnum = (name, min, max, step, def) => ({ name, default: tc.c(def), selector: { number: { ...tc.range(min, max), step, mode: 'box', unit_of_measurement: tc.unit } } });
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -14662,7 +14750,8 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
         ent('entity_power', 'sensor'), ent('entity_energy', 'sensor'), ent('entity_cost', 'sensor'),
         { name: 'price_per_kwh', selector: { number: { min: 0, step: 0.0001, mode: 'box' } } },
         { name: 'heating_type', selector: { select: { options: ['water', 'electric'] } } },
-        { type: 'grid', name: '', schema: [num('floor_max', 20, 40, 0.5, 29, '°C'), num('water_max', 25, 70, 1, 45, '°C'), num('heat_threshold', 0, 5000, 1, 20, 'W')] },
+        { type: 'grid', name: '', schema: [tnum('floor_max', 20, 40, 0.5, 29), tnum('water_max', 25, 70, 1, 45), num('heat_threshold', 0, 5000, 1, 20, 'W')] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_temp'), bool('show_floor'), bool('show_water'),
