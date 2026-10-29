@@ -2,7 +2,7 @@
 
 Four cards driven by a smart plug (`power`), with an optional `entity` and `switch`.
 
-- **Heated towel rail** (`custom:appliance-towel-dryer-card`): above `threshold` (50 W) the rails glow orange, heat waves rise, towels sway and steam. Below it with the plug on: "At target" (rails barely warm). Optional `temperature` / `target_temperature` (the display shows the target).
+- **Heated towel rail** (`custom:appliance-towel-dryer-card`): above `threshold` (50 W) the rails glow orange, heat waves rise, towels sway and steam. Below it with the plug on: "At target" (rails barely warm). Optional `temperature` / `target_temperature` (the display shows the target) and `humidity` (tile; otherwise `current_humidity` of a `climate` entity).
 - **Server rack / homelab** (`custom:appliance-server-rack-card`): above `threshold` (30 W) the LEDs blink, the fans spin, drive bays glow blue and data flows along the cables. The blink rate follows the load (`max_power`, default 300 W). The UPS display shows the live power draw.
 - **Desktop PC** (`custom:appliance-desktop-pc-card`): above `threshold` (40 W) the screen lights up with a desktop (typing code, bars, moving cursor) and the case fans spin with RGB rings. Between 0.5 W and the threshold: sleep (amber LED).
 - **Laptop** (`custom:appliance-laptop-card`): above `threshold` (15 W) the screen shows a live dashboard and the keys are backlit; below it: sleep (amber LED).

@@ -80,7 +80,7 @@ labels:
 | `power` (production), `energy` (today), `cost` (savings), `max_power` (peak Wp, default 3000), `sun_entity` (default `sun.sun`) | solar panels |
 | `speed` (select/sensor: text, level or %), `humidity`, `high_threshold` (default 35 W), `humidity_max` (default 70 %) | extractor fan (VMC) |
 | `zone_1`…`zone_4` (level 0–9, W or %), `zone_power` (default 1500 W), `residual_minutes` (default 10) | cooktop |
-| `mode` (pilot wire / select: comfort, eco, frost, off), `window`, `temperature`, `target_temperature`, `max_power` (default 1500 W) | electric radiator |
+| `mode` (pilot wire / select: comfort, eco, frost, off), `window`, `temperature`, `target_temperature`, `humidity`, `max_power` (default 1500 W) | electric radiator (`humidity` also on the heated towel rail; otherwise `current_humidity` of a `climate` entity) |
 | `max_temperature` (default 8), `freezer_max_temperature` (default −12) | fridge alerts |
 | `style`: `top` (default), `bottom`, `bottom_door`, `french`, `four_door`, `american` | fridge layout |
 | `zone2_temperature`, `max_temperature_2` (default = `max_temperature`) | dual-zone wine cooler |

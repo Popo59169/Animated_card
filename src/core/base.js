@@ -101,7 +101,7 @@ class ApplianceCardBase extends HTMLElement {
     this._fetchPeriod();
     const key = this._ids().map((i) => {
       const s = hass.states[i];
-      return s ? `${s.state}|${s.attributes.temperature ?? ""}|${s.attributes.current_temperature ?? ""}` : "x";
+      return s ? `${s.state}|${s.attributes.temperature ?? ""}|${s.attributes.current_temperature ?? ""}|${s.attributes.current_humidity ?? ""}` : "x";
     }).join(";") + "|" + lang(hass) + "|" + Math.floor(Date.now() / 30000);
     if (!force && key === this._lastKey) return;
     this._lastKey = key;
@@ -130,6 +130,8 @@ class ApplianceCardBase extends HTMLElement {
     if (main && ["water_heater", "climate"].includes(domainOf(c.entity))) {
       if (!m.temp && main.attributes.current_temperature != null) m.tempVal = main.attributes.current_temperature;
       if (!m.target && main.attributes.temperature != null) m.targetVal = main.attributes.temperature;
+      // humidité du thermostat (current_humidity) quand aucun capteur n'est choisi
+      if (!c.humidity && Number.isFinite(Number(main.attributes.current_humidity ?? NaN))) m.humidity = Number(main.attributes.current_humidity);
     }
     // une entité climate / water_heater dans temperature ou target_temperature : son état est un mode (« off », « heat »),
     // les valeurs sont dans current_temperature et temperature
@@ -821,6 +823,7 @@ class ApplianceCardBase extends HTMLElement {
       const te = c.temperature || (domainOf(c.entity) === "climate" ? c.entity : null);
       if (m.tempVal != null) tile("mdi:home-thermometer", `${fmtNum(hass, m.tempVal, 1)} ${m.tempUnit}`, lb("temperature"), te);
       if (m.targetVal != null) tile("mdi:target", `${fmtNum(hass, m.targetVal, 1)} ${m.tempUnit}`, lb("target"), c.target_temperature || te);
+      if (m.humidity != null) tile("mdi:water-percent", `${fmtNum(hass, m.humidity, 0)} %`, lb("humidity"), c.humidity || c.entity);
     } else if (kind === "hob") {
       /* no extra tile */
     } else if (kind === "vmc") {
@@ -847,6 +850,7 @@ class ApplianceCardBase extends HTMLElement {
     } else if (["water_heater", "oven", "air_fryer", "ac_split", "heat_pump", "towel_dryer", "server_rack"].includes(kind)) {
       if (m.tempVal != null) tile("mdi:thermometer", `${fmtNum(hass, m.tempVal, 0)} ${m.tempUnit}`, lb("temperature"), tEntity);
       if (m.targetVal != null) tile("mdi:target", `${fmtNum(hass, m.targetVal, 0)} ${m.tempUnit}`, lb("target"), c.target_temperature || tEntity);
+      if (kind === "towel_dryer" && m.humidity != null) tile("mdi:water-percent", `${fmtNum(hass, m.humidity, 0)} %`, lb("humidity"), c.humidity || c.entity);
     }
     if (m.remaining != null && m.remaining > 0 && active && kind !== "water_heater") tile("mdi:timer-sand", fmtDuration(m.remaining), lb("remaining"), c.remaining);
     const solar = kind === "solar";
