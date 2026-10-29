@@ -338,8 +338,10 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     setConfig(c) {
       if (window.applianceSize) window.applianceSize(this, c);
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
+      // temp_max par défaut (en °C dans KINDS) : converti dans l'unité d'affichage au rendu
+      const { temp_max, ...d } = KINDS[this.kind].d;
       this._c = { show_status: true, show_controls: true, show_flow: true, show_pressure: true, show_power: true, show_temp: true, show_level: true,
-        show_runtime: true, show_starts: true, show_energy: true, show_cost: true, no_flow_threshold: 0.5, ...KINDS[this.kind].d, ...c };
+        show_runtime: true, show_starts: true, show_energy: true, show_cost: true, no_flow_threshold: 0.5, ...d, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -405,10 +407,12 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _compute() {
       const c = this._c, s = this._st(c.entity);
       const pw = this._watts(c.entity_power), flow = this._lpm(c.entity_flow), pres = this._num(c.entity_pressure);
-      const temp = this._num(c.entity_temp), level = this._num(c.entity_level);
+      // température dans l'unité d'affichage (°C / °F)
+      const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temp), this._st(c.entity_temp)), level = this._num(c.entity_level);
+      const tMax = c.temp_max ?? tc.c(KINDS[this.kind].d.temp_max);
       const txt = s ? String(s.state).toLowerCase() : '';
       const fault = this._st(c.entity_fault);
-      const v = { pw, flow, pres, temp, level, alerts: [] };
+      const v = { pw, flow, pres, temp, tUnit: tc.unit, level, alerts: [] };
       if ((fault && fault.state === 'on') || /error|erreur|fault|défaut|defaut|alarm|trip/.test(txt)) return { ...v, st: 'fault' };
       let on;
       if (s && !/^(unavailable|unknown)$/.test(txt)) on = !/^(off|false|0|arr[eê]t|éteint|eteint|idle|stopped)$/.test(txt);
@@ -418,7 +422,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       // alertes : marche à sec (pas de débit), surpression, moteur trop chaud, niveau bas
       if (on && !isNaN(flow) && flow < Number(c.no_flow_threshold)) v.alerts.push('no_flow');
       if (!isNaN(pres) && pres > Number(c.pressure_max)) v.alerts.push('overpressure');
-      if (!isNaN(temp) && temp > Number(c.temp_max)) v.alerts.push('overheat');
+      if (!isNaN(temp) && temp > Number(tMax)) v.alerts.push('overheat');
       if (KINDS[this.kind].sump) {
         // relevage : c'est le niveau HAUT qui est dangereux (débordement), signalé par le capteur ou le flotteur d'alarme
         const fl = this._st(c.entity_float);
@@ -431,7 +435,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
     _render() {
       if (!this._built) this._build();
       const c = this._c, r = this._root, card = this._card, K = KINDS[this.kind];
-      const { st, pw, flow, pres, temp, level, alerts } = this._compute();
+      const { st, pw, flow, pres, temp, tUnit, level, alerts } = this._compute();
       const flowRaw = this._num(c.entity_flow); // valeur affichée, dans l'unité du capteur
       const clamp = (x) => Math.max(0, Math.min(1, x));
       const on = st === 'running' || st === 'warning';
@@ -472,7 +476,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
         flow: [c.entity_flow, this._fmt(flowRaw, 1), this._unit(c.entity_flow, 'L/min')],
         pressure: [c.entity_pressure, this._fmt(pres, 1), this._unit(c.entity_pressure, 'bar')],
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
-        temp: [c.entity_temp, this._fmt(temp, 0), this._unit(c.entity_temp, '°C')],
+        temp: [c.entity_temp, this._fmt(temp, 0), tUnit],
         level: [c.entity_level, this._fmt(level, 0), this._unit(c.entity_level, '%')],
         runtime: [c.entity_runtime, this._fmt(run, 1), this._unit(c.entity_runtime, 'h')],
         starts: [c.entity_starts, this._fmt(starts, 0), ''],
@@ -508,6 +512,7 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, unit) => ({ name, default: D[name], selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
       const bool = (name) => ({ name, selector: { boolean: {} }, default: true });
+      const tc = window.applianceTemp(this._hass, this._c);
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -523,8 +528,9 @@ svg{display:block;width:100%;max-width:calc(270px * var(--illus-scale,1));height
         { name: 'fluid_color', selector: { text: {} } },
         { type: 'grid', name: '', schema: [
           num('max_flow', 1, 10000, 1, 'L/min'), num('max_power', 10, 100000, 10, 'W'), num('run_threshold', 0, 5000, 1, 'W'),
-          num('max_pressure', 1, 100, 0.5, 'bar'), num('pressure_max', 0, 100, 0.1, 'bar'), num('temp_max', 20, 150, 1, '°C'), KINDS[this.kind].sump ? num('level_max', 0, 100, 1, '%') : num('level_min', 0, 100, 1, '%'),
+          num('max_pressure', 1, 100, 0.5, 'bar'), num('pressure_max', 0, 100, 0.1, 'bar'), { name: 'temp_max', default: tc.c(D.temp_max), selector: { number: { ...tc.range(20, 150), step: 1, mode: 'box', unit_of_measurement: tc.unit } } }, KINDS[this.kind].sump ? num('level_max', 0, 100, 1, '%') : num('level_min', 0, 100, 1, '%'),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           bool('show_status'), bool('show_controls'), bool('show_flow'), bool('show_pressure'), bool('show_power'), bool('show_temp'),

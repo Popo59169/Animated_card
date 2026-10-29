@@ -17,6 +17,7 @@ class AppliancePelletBoilerCard extends HTMLElement {
   static getStubConfig() { return { entity_power: '', entity_flow_temp: '', entity_return_temp: '', entity_pellet_level: '' }; }
 
   static getConfigForm() {
+    const tc = window.applianceTemp();
     return {
       schema: [
         { name: 'name', selector: { text: {} } },
@@ -35,8 +36,9 @@ class AppliancePelletBoilerCard extends HTMLElement {
           { name: 'threshold', selector: { number: { min: 0, max: 500, step: 1, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'ignition_threshold', selector: { number: { min: 50, max: 2000, step: 10, mode: 'box', unit_of_measurement: 'W' } } },
           { name: 'pellet_alert', selector: { number: { min: 0, max: 50, step: 1, mode: 'box', unit_of_measurement: '%' } } },
-          { name: 'flow_temp_max', selector: { number: { min: 40, max: 95, step: 1, mode: 'box', unit_of_measurement: '°C' } } },
+          { name: 'flow_temp_max', selector: { number: { ...tc.range(40, 95), step: 1, mode: 'box', unit_of_measurement: tc.unit } } },
         ] },
+        window.applianceTempField,
         { type: 'grid', name: '', schema: [
           { name: 'show_power', selector: { boolean: {} }, default: true },
           { name: 'show_energy', selector: { boolean: {} }, default: true },
@@ -54,7 +56,7 @@ class AppliancePelletBoilerCard extends HTMLElement {
   setConfig(config) {
     if (window.applianceSize) window.applianceSize(this, config);
     this._config = { show_power: true, show_energy: true, show_cost: true, show_temps: true, show_pellets: true, show_status: true,
-      price_per_kwh: 0, threshold: 30, ignition_threshold: 300, pellet_alert: 15, flow_temp_max: 80, ...config };
+      price_per_kwh: 0, threshold: 30, ignition_threshold: 300, pellet_alert: 15, ...config };
     this._built = false; this._build();
   }
   set hass(h) {
@@ -222,7 +224,9 @@ class AppliancePelletBoilerCard extends HTMLElement {
     if (!this._built || !this._hass) return;
     const c = this._config, r = this.shadowRoot;
     const w = this._num(c.entity_power), e = this._num(c.entity_energy);
-    const dep = this._num(c.entity_flow_temp), ret = this._num(c.entity_return_temp), lvl = this._num(c.entity_pellet_level);
+    // températures dans l'unité d'affichage (°C / °F)
+    const tc = window.applianceTemp(this._hass, c), tv = (id) => tc.conv(this._num(id), this._st(id));
+    const dep = tv(c.entity_flow_temp), ret = tv(c.entity_return_temp), lvl = this._num(c.entity_pellet_level);
     let cost = this._num(c.entity_cost); if (cost === null && e !== null && c.price_per_kwh) cost = e * c.price_per_kwh;
     const st = this._state(w);
     const low = lvl !== null && lvl <= c.pellet_alert;
@@ -233,11 +237,12 @@ class AppliancePelletBoilerCard extends HTMLElement {
     // Vitesse de la vis selon la puissance (si connue)
     r.getElementById('svg').style.setProperty('--fs', `${st === 'ignition' ? 0.8 : 1.4}s`);
 
-    // Tuyaux : cuivre froid → rouge chaud (départ), cuivre → orange (retour)
-    const mix = (t) => { const k = t === null ? 0 : Math.max(0, Math.min(1, (t - 25) / (c.flow_temp_max - 25)));
+    // Tuyaux : cuivre froid → rouge chaud (départ), cuivre → orange (retour) ; dégradé calculé en °C (25 → flow_temp_max, 80 °C par défaut)
+    const fMax = c.flow_temp_max != null ? tc.toC(c.flow_temp_max) : 80;
+    const mix = (t) => { const k = t === null ? 0 : Math.max(0, Math.min(1, (tc.toC(t) - 25) / (fMax - 25)));
       const a = [184, 115, 51], b = [229, 57, 53]; return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`; };
     r.getElementById('pdep').style.stroke = mix(dep);
-    r.getElementById('pret').style.stroke = mix(ret === null ? null : ret - 10);
+    r.getElementById('pret').style.stroke = mix(ret === null ? null : ret - tc.d(10));
     r.getElementById('tdep').textContent = dep === null ? '' : `▲ ${Math.round(dep)}°`;
     r.getElementById('tret').textContent = ret === null ? '' : `▼ ${Math.round(ret)}°`;
 
@@ -250,15 +255,15 @@ class AppliancePelletBoilerCard extends HTMLElement {
 
     // Écran
     const lab = r.getElementById('lab'), val = r.getElementById('val');
-    if (st === 'heating') { lab.textContent = this._t('flow').toUpperCase(); val.textContent = dep === null ? 'ON' : `${Math.round(dep)}°C`; }
-    else if (st === 'off') { lab.textContent = this._t('off').toUpperCase(); val.textContent = dep === null ? '--' : `${Math.round(dep)}°C`; }
+    if (st === 'heating') { lab.textContent = this._t('flow').toUpperCase(); val.textContent = dep === null ? 'ON' : `${Math.round(dep)}${tc.unit}`; }
+    else if (st === 'off') { lab.textContent = this._t('off').toUpperCase(); val.textContent = dep === null ? '--' : `${Math.round(dep)}${tc.unit}`; }
     else { lab.textContent = ''; val.textContent = this._t(st).toUpperCase().slice(0, 9); }
 
     const f = (v, d, u) => (v === null ? '—' : `${v.toFixed(d)} ${u}`);
     const it = [];
     if (c.show_status) it.push([this._l('status'), this._t(st)]);
     if (c.show_power) it.push([this._l('power'), w === null ? '—' : w >= 1000 ? `${(w / 1000).toFixed(1)} kW` : `${Math.round(w)} W`]);
-    if (c.show_temps) { it.push([this._l('flow'), f(dep, 0, '°C')]); it.push([this._l('ret'), f(ret, 0, '°C')]); }
+    if (c.show_temps) { it.push([this._l('flow'), f(dep, 0, tc.unit)]); it.push([this._l('ret'), f(ret, 0, tc.unit)]); }
     if (c.show_pellets) it.push([this._l('pellets'), f(lvl, 0, '%')]);
     if (c.show_energy) it.push([this._l('energy'), f(e, 1, 'kWh')]);
     if (c.show_cost && cost !== null) it.push([this._l('cost'), f(cost, 2, '€')]);

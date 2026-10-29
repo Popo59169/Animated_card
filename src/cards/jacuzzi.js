@@ -165,7 +165,7 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       if (!c || typeof c !== 'object') throw new Error('Invalid configuration');
       this._c = { show_power: true, show_energy: true, show_temp: true, show_ph: true, show_cost: true, show_status: true,
         filter_threshold: 30, jets_threshold: 700, heater_threshold: 1800, power_max: 2500, off_threshold: 0.5,
-        ph_min: 7, ph_max: 7.8, temp_max: 40, ...c };
+        ph_min: 7, ph_max: 7.8, ...c };
       this._built = false;
       if (this._hass) this._render();
     }
@@ -254,7 +254,9 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       if (!this._built) this._build();
       const c = this._c, card = this._card, r = this._root;
       const { st, pw } = this._compute();
-      const temp = this._num(c.entity_temp), target = this._tgt(c.entity_target_temp), ph = this._num(c.entity_ph);
+      // températures dans l'unité d'affichage (°C / °F) ; temp_max par défaut : 40 °C
+      const tc = window.applianceTemp(this._hass, c), tMax = c.temp_max ?? tc.c(40);
+      const temp = tc.conv(this._num(c.entity_temp), this._st(c.entity_temp)), target = tc.conv(this._tgt(c.entity_target_temp), this._st(c.entity_target_temp)), ph = this._num(c.entity_ph);
       // vitesse des animations : suit la puissance (0.7 à 2.3), 1.4 si on ne la connaît pas en mode jets
       const spd = !isNaN(pw) ? 0.7 + 1.6 * Math.max(0, Math.min(1, pw / Number(c.power_max || 2500))) : (st === 'jets' ? 1.4 : 1);
       // éclairage : entité allumée ; la couleur vient de rgb_color si la lumière la fournit
@@ -269,11 +271,11 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       r.getElementById('jzdsp').textContent = st === 'off' ? 'OFF' : st === 'alarm' ? 'Err' : !isNaN(temp) ? `${this._fmt(temp, 1)}°` : '--';
 
       // alertes : pH hors plage, eau trop chaude
-      const phBad = !isNaN(ph) && (ph < Number(c.ph_min) || ph > Number(c.ph_max)), hot = !isNaN(temp) && temp > Number(c.temp_max);
+      const phBad = !isNaN(ph) && (ph < Number(c.ph_min) || ph > Number(c.ph_max)), hot = !isNaN(temp) && temp > Number(tMax);
       let al = '';
       if (!isNaN(ph) && ph < Number(c.ph_min)) al = `${this._t('lowph')} (${this._fmt(ph, 1)})`;
       else if (!isNaN(ph) && ph > Number(c.ph_max)) al = `${this._t('highph')} (${this._fmt(ph, 1)})`;
-      else if (hot) al = `${this._t('hot')} (${this._fmt(temp, 1)} °C)`;
+      else if (hot) al = `${this._t('hot')} (${this._fmt(temp, 1)} ${tc.unit})`;
       const ae = r.getElementById('jzalert'); ae.textContent = al; ae.classList.toggle('on', !!al);
 
       // tuiles
@@ -283,8 +285,8 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       const V = {
         power: [c.entity_power, isNaN(pw) ? '--' : (pw >= 1000 ? this._fmt(pw / 1000, 2) : this._fmt(pw, 0)), isNaN(pw) ? '' : (pw >= 1000 ? 'kW' : 'W')],
         energy: [c.entity_energy, this._fmt(energy, 2), this._unit(c.entity_energy, 'kWh')],
-        temp: [c.entity_temp, this._fmt(temp, 1), '°C'],
-        target: [c.entity_target_temp, this._fmt(target, 1), '°C'],
+        temp: [c.entity_temp, this._fmt(temp, 1), tc.unit],
+        target: [c.entity_target_temp, this._fmt(target, 1), tc.unit],
         ph: [c.entity_ph, this._fmt(ph, 1), ''],
         cost: [c.entity_cost || (c.price_per_kwh && c.entity_energy), this._fmt(cost, 2), costU],
       };
@@ -318,6 +320,7 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
       }
       const ent = (name, domain) => ({ name, selector: { entity: domain ? { domain } : {} } });
       const num = (name, min, max, step, unit) => ({ name, selector: { number: { min, max, step, mode: 'box', ...(unit ? { unit_of_measurement: unit } : {}) } } });
+      const tc = window.applianceTemp(this._hass, this._c), tr = (n, min, max, step) => ({ name: n, selector: { number: { ...tc.range(min, max), step, mode: 'box', unit_of_measurement: tc.unit } } });
       this._form.hass = this._hass;
       this._form.data = this._c;
       this._form.schema = [
@@ -331,9 +334,10 @@ svg{display:block;width:100%;max-width:calc(230px * var(--illus-scale,1));height
         { type: 'grid', name: '', schema: [
           num('filter_threshold', 0, 2000, 1, 'W'), num('jets_threshold', 0, 5000, 1, 'W'),
           num('heater_threshold', 0, 10000, 1, 'W'), num('power_max', 100, 10000, 10, 'W'),
-          num('off_threshold', 0, 500, 0.1, 'W'), num('temp_max', 20, 60, 0.5, '°C'),
+          num('off_threshold', 0, 500, 0.1, 'W'), tr('temp_max', 20, 60, 0.5),
           num('ph_min', 0, 14, 0.1), num('ph_max', 0, 14, 0.1),
         ] },
+        window.applianceTempField,
         { name: 'language', selector: { select: { options: Object.keys(T).map((value) => ({ value, label: { fr: 'Français', en: 'English', de: 'Deutsch', nb: 'Norsk bokmål', ro: 'Română', nl: 'Nederlands', ru: 'Русский' }[value] || value })) } } },
         { type: 'grid', name: '', schema: [
           { name: 'show_status', selector: { boolean: {} }, default: true }, { name: 'show_power', selector: { boolean: {} }, default: true },

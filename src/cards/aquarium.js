@@ -14,12 +14,14 @@ const I18N_AQUARIUM = /*@i18n aquarium*/{};
 const lang = (h) => { const l = ((h && (h.locale?.language || h.language)) || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return l === 'no' || l === 'nn' ? 'nb' : l; };
 
 class ApplianceAquariumCard extends HTMLElement {
-  static getStubConfig() {
-    return { entity_power: '', entity_energy: '', entity_temperature: '', entity_light: '', temp_min: 24, temp_max: 27, price_per_kwh: 0.2 };
+  static getStubConfig(hass) {
+    const tc = window.applianceTemp(hass);
+    return { entity_power: '', entity_energy: '', entity_temperature: '', entity_light: '', temp_min: tc.c(24), temp_max: tc.c(27), price_per_kwh: 0.2 };
   }
 
   // Éditeur visuel HA
   static getConfigForm() {
+    const tc = window.applianceTemp(), tr = tc.range(0, 40);
     return {
       schema: [
         { name: 'name', selector: { text: {} } },
@@ -33,9 +35,10 @@ class ApplianceAquariumCard extends HTMLElement {
         { name: 'entity_cost', selector: { entity: { domain: 'sensor' } } },
         { name: 'price_per_kwh', selector: { number: { min: 0, max: 2, step: 0.0001, mode: 'box' } } },
         { type: 'grid', name: '', schema: [
-          { name: 'temp_min', selector: { number: { min: 0, max: 40, step: 0.5, mode: 'box' } } },
-          { name: 'temp_max', selector: { number: { min: 0, max: 40, step: 0.5, mode: 'box' } } },
+          { name: 'temp_min', selector: { number: { ...tr, step: 0.5, mode: 'box', unit_of_measurement: tc.unit } } },
+          { name: 'temp_max', selector: { number: { ...tr, step: 0.5, mode: 'box', unit_of_measurement: tc.unit } } },
         ] },
+        window.applianceTempField,
         { type: 'grid', name: '', schema: [
           { name: 'show_power', selector: { boolean: {} }, default: true },
           { name: 'show_energy', selector: { boolean: {} }, default: true },
@@ -52,7 +55,7 @@ class ApplianceAquariumCard extends HTMLElement {
     if (window.applianceSize) window.applianceSize(this, config);
     this._config = {
       show_power: true, show_energy: true, show_temperature: true, show_cost: true,
-      temp_min: 24, temp_max: 27, price_per_kwh: 0.2, max_power: 200,
+      price_per_kwh: 0.2, max_power: 200,
       ...config,
     };
     this._built = false;
@@ -187,7 +190,10 @@ class ApplianceAquariumCard extends HTMLElement {
   _update() {
     if (!this._built || !this._hass) return;
     const c = this._config, root = this.shadowRoot;
-    const power = this._num(c.entity_power), energy = this._num(c.entity_energy), temp = this._num(c.entity_temperature);
+    const power = this._num(c.entity_power), energy = this._num(c.entity_energy);
+    // température dans l'unité d'affichage (°C / °F) ; seuils par défaut 24-27 °C convertis
+    const tc = window.applianceTemp(this._hass, c), temp = tc.conv(this._num(c.entity_temperature), this._hass.states[c.entity_temperature]);
+    const tMin = c.temp_min ?? tc.c(24), tMax = c.temp_max ?? tc.c(27);
     let cost = this._num(c.entity_cost);
     if (cost === null && energy !== null && c.price_per_kwh) cost = energy * c.price_per_kwh;
 
@@ -198,8 +204,8 @@ class ApplianceAquariumCard extends HTMLElement {
     // Couleur de l'eau selon la température : froid=bleu, idéal=turquoise, chaud=orange/rouge
     let water = '#2a8fd6', alert = false;
     if (temp !== null) {
-      if (temp < c.temp_min) { water = '#1e5fb5'; alert = true; }
-      else if (temp > c.temp_max) { water = temp > c.temp_max + 3 ? '#d64a2a' : '#d6962a'; alert = true; }
+      if (temp < tMin) { water = '#1e5fb5'; alert = true; }
+      else if (temp > tMax) { water = temp > tMax + tc.d(3) ? '#d64a2a' : '#d6962a'; alert = true; }
       else water = '#2ab5c4';
     }
     root.querySelector('svg').style.setProperty('--water', water);
@@ -216,7 +222,7 @@ class ApplianceAquariumCard extends HTMLElement {
     const items = [];
     if (c.show_power) items.push(['p', this._l('power'), fmt(power, 0, 'W')]);
     if (c.show_energy) items.push(['e', this._l('energy'), fmt(energy, 2, 'kWh')]);
-    if (c.show_temperature) items.push(['t', this._l('temp'), fmt(temp, 1, '°C')]);
+    if (c.show_temperature) items.push(['t', this._l('temp'), fmt(temp, 1, tc.unit)]);
     if (c.show_cost) items.push(['c', this._l('cost'), fmt(cost, 2, '€')]);
     root.getElementById('stats').innerHTML = items.map(([k, l, v]) =>
       `<div class="stat ${k}"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join('');

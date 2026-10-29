@@ -24,6 +24,7 @@ All cards have a visual editor. When added from the card picker, entities are de
 | `animations` | `false` to disable animations |
 | `illustration_size` | Size of the drawing in % (30–300, default 100), on every card. In a sections dashboard, every card can also be resized with the mouse, from 3 columns wide and in height |
 | `transparent` | `true` removes the card background, shadow and border, so the dashboard background shows through, on every card |
+| `temperature_unit` | `C` or `F`: temperature unit of the aquarium, battery, pellet boiler, gas boiler, diesel heater, hot tub, pump, pool robot, sauna, underfloor heating and water heat pump cards. Default: the unit of Home Assistant. Sensors are converted from their own unit, and temperature thresholds are entered in this unit |
 | `confirm_off` | Washer, dryer, dishwasher: `false` to turn off the safety confirmation (default `true`, see below) |
 
 ### Custom tile labels
