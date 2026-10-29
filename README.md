@@ -18,7 +18,13 @@ A simple smart plug with a power sensor is enough. Connected appliances can add 
 
 **HACS (recommended)**
 
-1. Open HACS → **Dashboard** (Frontend) and search for **Appliance Cards**.
+Click this button to open the repository directly in HACS:
+
+[![Open your Home Assistant instance and open the repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=skyrotter&repository=ha-appliance-electromenager-cards&category=dashboard)
+
+**Manual Installation via HACS**
+
+1. Open HACS → **Dashboard** (Frontend) and search for **Animated Appliance & Energy Cards**.
 2. Click **Download**, then reload your browser (Ctrl+F5).
 
 If the search does not find it yet: HACS → ⋮ → *Custom repositories* → add `https://github.com/skyrotter/ha-appliance-electromenager-cards` with the category **Dashboard**.
