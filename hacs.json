@@ -1,6 +1,5 @@
 {
-  "name": "⚡ Animated Appliance & Energy Cards (Électroménager)",
-  "filename": "ha-appliance-electromenager-cards.js",
+  "name": "Tchoup Appliance Cards",
   "render_readme": true,
-  "homeassistant": "2024.8.0"
+  "filename": "tchoup-appliance-cards.js"
 }
